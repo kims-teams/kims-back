@@ -15,9 +15,9 @@ public class AppConf implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
-        registry.addInterceptor(authInter).addPathPatterns("/api/utryh");
-
+        registry.addInterceptor(authInter)
+                .addPathPatterns("/api/user/**")
+                .excludePathPatterns("/api/user", "/api/user/login");
     }
 
     @Override
