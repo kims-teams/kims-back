@@ -1,8 +1,5 @@
 package org.kt.finalproject.controller;
 
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,20 +13,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.request.Login;
-import org.kt.finalproject.response.LoginResult;
 import org.kt.finalproject.service.UserService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -60,16 +51,19 @@ public class UserController {
         }
 
         User user = User.builder()
-                .businessEmail(dto.getBusinessEmail())
-                .password(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()))
                 .name(dto.getName())
-                .position(dto.getPosition()).build();
+                .email(dto.getEmail())
+                .password(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()))
+                .position(dto.getPosition())
+                .build();
 
         userRepository.save(user);
 
 
         return ResponseEntity.status(201).body(user);
     }
+
+
 
     @PostMapping("/login")
     public ResponseEntity<LoginResult> login(@RequestBody @Valid Login login, BindingResult result) {

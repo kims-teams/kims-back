@@ -30,7 +30,7 @@ public class UserService {
             return ResponseEntity.status(400).body(null);
         }
 
-        Optional<User> user = userRepository.findByBusinessEmail(login.getBusinessEmail());
+        Optional<User> user = userRepository.findByEmail(login.getEmail());
         if (user.isEmpty() || !BCrypt.checkpw(login.getPassword(), user.get().getPassword())) {
             return ResponseEntity.status(401).body(null);
         }
@@ -42,7 +42,7 @@ public class UserService {
 
         String token = JWT.create()
                 .withIssuer("kimsteams")
-                .withSubject(user.get().getBusinessEmail())
+                .withSubject(user.get().getEmail())
                 .sign(Algorithm.HMAC256(secret));
 
         LoginResult loginResult = LoginResult.builder()
