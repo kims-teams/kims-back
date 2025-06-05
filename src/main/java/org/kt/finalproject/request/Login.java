@@ -13,7 +13,7 @@ public class Login {
 
     @NotBlank
     @Email
-    private String businessEmail;
+    private String email;
 
     @NotBlank
     private String password;

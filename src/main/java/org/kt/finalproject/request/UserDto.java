@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 @Setter
 @Getter
@@ -14,16 +17,8 @@ import lombok.*;
 @AllArgsConstructor
 public class UserDto {
 
-    @Email(message = "올바른 이메일 형식이어야 합니다.")
-    @NotBlank(message = "이메일은 필수 항목입니다.")
-    private String businessEmail;
 
-    @Pattern(
-            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,16}$",
-            message = "비밀번호는 대소문자, 숫자를 포함하고 8~16자여야 합니다."
-    )
-    private String password;
-
+    private Long id;
 
     @Pattern(
             regexp = "^[가-힣]{2,10}$",
@@ -31,6 +26,30 @@ public class UserDto {
     )
     private String name;
 
+
+    @Email(message = "올바른 이메일 형식이어야 합니다.")
+    @NotBlank(message = "이메일은 필수 항목입니다.")
+    private String email;
+
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,16}$",
+            message = "비밀번호는 대소문자, 숫자를 포함하고 8~16자여야 합니다."
+    )
+    private String password;
+
+    private String department;
+
     private String position;
+
+    private String phone;
+
+    private LocalDate hireDate;
+
+    private String status;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
 
 }
