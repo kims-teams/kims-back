@@ -6,8 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 
 @Entity
 @Setter
@@ -34,11 +35,14 @@ public class User {
 
     private String phone;
 
-    private LocalDate hireDate;
+    private LocalDateTime hireDate;
+
 
     private String status;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
  }
+
