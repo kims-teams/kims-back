@@ -46,21 +46,8 @@ public class UserController {
     public ResponseEntity<User> postUserHandle(@RequestBody @Valid UserDto dto
             , BindingResult result) {
 
-        if (result.hasErrors()) {
-            return ResponseEntity.status(400).body(null);
-        }
+       return userService.postUserHandle(dto,result);
 
-        User user = User.builder()
-                .name(dto.getName())
-                .email(dto.getEmail())
-                .password(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()))
-                .position(dto.getPosition())
-                .build();
-
-        userRepository.save(user);
-
-
-        return ResponseEntity.status(201).body(user);
     }
 
 
@@ -68,5 +55,18 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<LoginResult> login(@RequestBody @Valid Login login, BindingResult result) {
         return userService.login(login, result);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser (@PathVariable Long id){
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if(optionalUser.isEmpty()) {
+            return ResponseEntity.status(404).body("유저를 찾을 수 없습니다.");
+        }
+
+        userRepository.deleteById(id);
+
+        return ResponseEntity.status(200).body("유저 삭제 완료");
     }
 }

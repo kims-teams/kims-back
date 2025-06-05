@@ -9,6 +9,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+
 @Entity
 @Setter
 @Getter
@@ -36,10 +37,12 @@ public class User {
 
     private LocalDateTime hireDate;
 
+
     private String status;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-}
+ }
+
