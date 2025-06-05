@@ -8,7 +8,6 @@ import org.kt.finalproject.repository.UserRepository;
 import org.kt.finalproject.request.Login;
 import org.kt.finalproject.request.UserDto;
 import org.kt.finalproject.response.LoginResult;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -45,7 +44,6 @@ public class UserController {
     @Transactional
     public ResponseEntity<User> postUserHandle(@RequestBody @Valid UserDto dto
             , BindingResult result) {
-
        return userService.postUserHandle(dto,result);
 
     }
