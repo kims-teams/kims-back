@@ -8,9 +8,11 @@ import lombok.*;
 @Setter
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
+
+
     @Id
     private String businessEmail;
 
@@ -19,4 +21,5 @@ public class User {
     private String name;
 
     private String position;
+
 }
