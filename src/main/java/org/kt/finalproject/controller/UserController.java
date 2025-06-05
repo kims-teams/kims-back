@@ -1,5 +1,6 @@
 package org.kt.finalproject.controller;
 
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.kt.finalproject.request.Login;
+import org.kt.finalproject.response.LoginResult;
+import org.kt.finalproject.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +38,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Value("${secret}")
     private String secret;
@@ -57,6 +70,19 @@ public class UserController {
 
         return ResponseEntity.status(201).body(user);
     }
+  
+    @PostMapping("/login")
+    public ResponseEntity<LoginResult> login(@RequestBody @Valid Login login, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+        try {
+            LoginResult loginResult = userService.login(login.getBusinessEmail(), login.getPassword());
+            return ResponseEntity.ok(loginResult);
+        } catch (Exception e) {
+            return ResponseEntity.status(401).build();
+        }
+    }
 
     @PostMapping("/verify")
     public ResponseEntity<LoginResult> verifyHandle(@RequestBody @Valid Login login, BindingResult result) {
@@ -87,7 +113,5 @@ public class UserController {
         return ResponseEntity.status(200).body(loginResult);
 
     }
+  
 
-
-
-}

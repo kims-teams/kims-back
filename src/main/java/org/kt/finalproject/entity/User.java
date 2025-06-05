@@ -12,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 public class User {
 
+
     @Id
     private String businessEmail;
 
