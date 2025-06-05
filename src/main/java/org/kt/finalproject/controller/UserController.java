@@ -52,10 +52,10 @@ public class UserController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<User> postUserHandle (@RequestBody @Valid UserDto dto
-                                                , BindingResult result) {
+    public ResponseEntity<User> postUserHandle(@RequestBody @Valid UserDto dto
+            , BindingResult result) {
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             return ResponseEntity.status(400).body(null);
         }
 
@@ -70,48 +70,9 @@ public class UserController {
 
         return ResponseEntity.status(201).body(user);
     }
-  
+
     @PostMapping("/login")
     public ResponseEntity<LoginResult> login(@RequestBody @Valid Login login, BindingResult result) {
-        if (result.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-        try {
-            LoginResult loginResult = userService.login(login.getBusinessEmail(), login.getPassword());
-            return ResponseEntity.ok(loginResult);
-        } catch (Exception e) {
-            return ResponseEntity.status(401).build();
-        }
+        return userService.login(login, result);
     }
-
-    @PostMapping("/verify")
-    public ResponseEntity<LoginResult> verifyHandle(@RequestBody @Valid Login login, BindingResult result) {
-
-        System.out.println("🔔 /verify 요청 도착");
-
-        if (result.hasErrors()) {
-            return ResponseEntity.status(400).body(null);
-        }
-
-        Optional<User> user = userRepository.findByBusinessEmail(login.getBusinessEmail());
-        if (user.isEmpty() || !BCrypt.checkpw(login.getPassword(), user.get().getPassword())) {
-            return ResponseEntity.status(401).body(null);
-        }
-
-        System.out.println("비밀번호 일치 여부: " + BCrypt.checkpw(login.getPassword(), user.get().getPassword()));
-
-
-        String token =
-                JWT.create().withIssuer("kimsteams")
-                        .withSubject(user.get().getBusinessEmail())
-                        .sign(Algorithm.HMAC256(secret));
-
-        LoginResult loginResult = LoginResult.builder()
-                .token(token)
-                .user(user.get()).build();
-
-        return ResponseEntity.status(200).body(loginResult);
-
-    }
-  
-
+}
