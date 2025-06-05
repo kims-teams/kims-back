@@ -8,6 +8,7 @@ import org.kt.finalproject.repository.UserRepository;
 import org.kt.finalproject.request.Login;
 import org.kt.finalproject.request.UserDto;
 import org.kt.finalproject.response.LoginResult;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
