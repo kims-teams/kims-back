@@ -55,20 +55,7 @@ public class UserController {
     public ResponseEntity<User> postUserHandle(@RequestBody @Valid UserDto dto
             , BindingResult result) {
 
-        if (result.hasErrors()) {
-            return ResponseEntity.status(400).body(null);
-        }
-
-        User user = User.builder()
-                .businessEmail(dto.getBusinessEmail())
-                .password(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()))
-                .name(dto.getName())
-                .position(dto.getPosition()).build();
-
-        userRepository.save(user);
-
-
-        return ResponseEntity.status(201).body(user);
+       return userService.postUserHandle(dto,result);
     }
 
     @PostMapping("/login")

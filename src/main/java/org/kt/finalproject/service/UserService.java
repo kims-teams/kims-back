@@ -9,6 +9,7 @@ import lombok.Value;
 import org.kt.finalproject.entity.User;
 import org.kt.finalproject.repository.UserRepository;
 import org.kt.finalproject.request.Login;
+import org.kt.finalproject.request.UserDto;
 import org.kt.finalproject.response.LoginResult;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.ResponseEntity;
@@ -51,4 +52,24 @@ public class UserService {
 
         return ResponseEntity.status(200).body(loginResult);
     }
+
+    public ResponseEntity<User> postUserHandle(@RequestBody @Valid UserDto dto
+            , BindingResult result) {
+
+        if (result.hasErrors()) {
+            return ResponseEntity.status(400).body(null);
+        }
+
+        User user = User.builder()
+                .businessEmail(dto.getBusinessEmail())
+                .password(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()))
+                .name(dto.getName())
+                .position(dto.getPosition()).build();
+
+        userRepository.save(user);
+
+
+        return ResponseEntity.status(201).body(user);
+    }
+
 }
