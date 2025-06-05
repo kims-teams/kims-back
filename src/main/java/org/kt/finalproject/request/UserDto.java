@@ -41,6 +41,10 @@ public class UserDto {
 
     private String position;
 
+    @Pattern(
+            regexp = "^01[016-9]-\\d{3,4}-\\d{4}$",
+            message = "휴대폰 번호는 010-0000-0000 형식이어야 합니다."
+    )
     private String phone;
 
     private LocalDate hireDate;

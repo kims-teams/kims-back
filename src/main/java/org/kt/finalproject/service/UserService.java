@@ -5,13 +5,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.kt.finalproject.entity.User;
 import org.kt.finalproject.repository.UserRepository;
 import org.kt.finalproject.request.Login;
 import org.kt.finalproject.request.UserDto;
 import org.kt.finalproject.response.LoginResult;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -24,7 +24,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final String secret = "jwt-secret-key";
+    @Value("${secret}")
+    private String secret;
 
     public ResponseEntity<LoginResult> login(@RequestBody @Valid Login login, BindingResult result) {
         //User user = userRepository.findById(businessEmail).orElseThrow(() -> new RuntimeException("Invalid email or password"));
