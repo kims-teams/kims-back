@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -64,9 +65,14 @@ public class UserService {
                 .email(dto.getEmail())
                 .password(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()))
                 .name(dto.getName())
-                .position(dto.getPosition()).build();
+                .position(dto.getPosition())
+                .password("0000")
+                .status("재직중")
+                .createdAt(LocalDateTime.now())
+                .build();
 
         userRepository.save(user);
+
 
 
         return ResponseEntity.status(201).body(user);
