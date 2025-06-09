@@ -30,7 +30,7 @@ public class UserService {
     @Value("${secret}")
     private String secret;
 
-    public ResponseEntity<LoginResult> login(@RequestBody @Valid Login login, BindingResult result) {
+    public ResponseEntity<LoginResult> login(Login login, BindingResult result) {
         //User user = userRepository.findById(businessEmail).orElseThrow(() -> new RuntimeException("Invalid email or password"));
         if (result.hasErrors()) {
             return ResponseEntity.status(400).body(null);
@@ -58,7 +58,7 @@ public class UserService {
         return ResponseEntity.status(200).body(loginResult);
     }
 
-    public ResponseEntity<User> postUserHandle(@RequestBody @Valid UserDto dto
+    public ResponseEntity<User> postUserHandle(UserDto dto
             , BindingResult result) {
 
         if (result.hasErrors()) {
