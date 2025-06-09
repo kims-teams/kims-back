@@ -12,9 +12,12 @@ import org.kt.finalproject.request.UserDto;
 import org.kt.finalproject.response.LoginResult;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
@@ -75,8 +78,74 @@ public class UserService {
         userRepository.save(user);
 
 
-
         return ResponseEntity.status(201).body(user);
+    }
+
+    public ResponseEntity<?> deleteUser(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.status(404).body("유저를 찾을 수 없습니다.");
+        }
+
+        userRepository.deleteById(id);
+
+        return ResponseEntity.status(200).body("유저 삭제 완료");
+    }
+
+    public ResponseEntity<?> updateUser(Long id,
+                                        String subject,
+                                        UserDto dto,
+                                        BindingResult result) {
+
+        if (result.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("입력값이 유효하지 않습니다.");
+        }
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("유저를 찾을 수 없습니다.");
+        }
+
+        User user = optionalUser.get();
+
+        if (!user.getEmail().equals(subject)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("본인만 수정할 수 있습니다.");
+        }
+
+        if (dto.getName() != null) {
+            user.setName(dto.getName());
+        }
+
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            user.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
+        }
+
+        if (dto.getDepartment() != null) {
+            user.setDepartment(dto.getDepartment());
+        }
+
+        if (dto.getPosition() != null) {
+            user.setPosition(dto.getPosition());
+        }
+
+        if (dto.getPhone() != null) {
+            user.setPhone(dto.getPhone());
+        }
+
+        if (dto.getHireDate() != null) {
+            user.setHireDate(dto.getHireDate());
+        }
+
+        if (dto.getStatus() != null) {
+            user.setStatus(dto.getStatus());
+        }
+
+        user.setUpdatedAt(LocalDateTime.now());
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok(user);
     }
 
 }
