@@ -1,7 +1,7 @@
 package org.kt.finalproject.service;
 
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.input_repository.entity.Department;
+import org.kt.finalproject.entity.Department;
 import org.kt.finalproject.repository.DepartmentRepo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
