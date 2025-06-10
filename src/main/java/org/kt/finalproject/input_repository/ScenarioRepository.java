@@ -1,0 +1,7 @@
+package org.kt.finalproject.input_repository;
+
+import org.kt.finalproject.input_entity.Scenario;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ScenarioRepository extends JpaRepository<String, Scenario> {
+}
