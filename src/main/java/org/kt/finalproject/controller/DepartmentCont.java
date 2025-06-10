@@ -16,11 +16,16 @@ public class DepartmentCont {
     private final DepartmentRepo departmentRepo;
     private final DepartmentService departmentService;
 
+// ================================================부서 전체 목록 조회 ===========================================
     @GetMapping
     public ResponseEntity<?> findDepartment(){
         return ResponseEntity.status(200).body(departmentRepo.findAll());
     }
 
+// ========================================전체 부서 리스트 조회 후 응답======================================================
+
+
+// ==================================================================================================================
     @PostMapping
     public ResponseEntity<?> saveDepartment(@RequestBody Department department){
         return departmentService.saveDepartment(department);
