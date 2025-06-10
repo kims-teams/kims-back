@@ -3,9 +3,8 @@ package org.kt.finalproject.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.entity.User;
+import org.kt.finalproject.input_repository.entity.User;
 import org.kt.finalproject.repository.UserRepository;
 import org.kt.finalproject.request.Login;
 import org.kt.finalproject.request.UserDto;
@@ -16,9 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package org.kt.finalproject.entity;
+package org.kt.finalproject.input_repository.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 
 @Entity

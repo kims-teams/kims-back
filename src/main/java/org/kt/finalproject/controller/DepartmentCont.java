@@ -1,7 +1,7 @@
 package org.kt.finalproject.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.entity.Department;
+import org.kt.finalproject.input_repository.entity.Department;
 import org.kt.finalproject.repository.DepartmentRepo;
 import org.kt.finalproject.service.DepartmentService;
 import org.springframework.http.ResponseEntity;

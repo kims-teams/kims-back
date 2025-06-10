@@ -1,6 +1,6 @@
-package org.kt.finalproject.repository;
+package org.kt.finalproject.input_repository;
 
-import org.kt.finalproject.entity.PlantMaster;
+import org.kt.finalproject.input_entity.PlantMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PlantMasterRepository extends JpaRepository<PlantMaster, Integer> {

@@ -1,7 +1,6 @@
-package org.kt.finalproject.entity;
+package org.kt.finalproject.input_entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -10,17 +9,21 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ManufacturingProcess {
+public class OperationSequence {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
+    private String operationId;
+
+    private Integer operationSeq;
+
+    private String operationType;
+
+    private String operationName;
+
     private String routingId;
-
-    private String routingType;
-
-    private String routingName;
 
     private String siteId;
 

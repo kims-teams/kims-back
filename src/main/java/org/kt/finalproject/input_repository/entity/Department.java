@@ -1,4 +1,4 @@
-package org.kt.finalproject.entity;
+package org.kt.finalproject.input_repository.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

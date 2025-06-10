@@ -1,10 +1,7 @@
-package org.kt.finalproject.entity;
+package org.kt.finalproject.input_entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.math.BigDecimal;
-import java.util.concurrent.TimeUnit;
 
 @Entity
 @Setter
