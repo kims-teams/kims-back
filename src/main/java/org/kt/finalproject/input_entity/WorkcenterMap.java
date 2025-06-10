@@ -26,14 +26,14 @@ public class WorkcenterMap {
     @Column(name = "routing_version")
     private Integer routingVersion;
 
-    @Column(name = "tact_time", precision = 10, scale = 2)
+    @Column(name = "tact_time")
     private Double tactTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tact_time_uom")
     private TimeUom tactTimeUom;
 
-    @Column(name = "proc_time", precision = 10, scale = 2)
+    @Column(name = "proc_time")
     private Double procTime;
 
     @Enumerated(EnumType.STRING)
