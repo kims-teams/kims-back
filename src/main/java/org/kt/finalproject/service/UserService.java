@@ -4,7 +4,7 @@ package org.kt.finalproject.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.input_repository.entity.User;
+import org.kt.finalproject.entity.User;
 import org.kt.finalproject.repository.UserRepository;
 import org.kt.finalproject.request.Login;
 import org.kt.finalproject.request.UserDto;
