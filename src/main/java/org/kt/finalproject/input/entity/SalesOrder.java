@@ -47,8 +47,8 @@ public class SalesOrder {
     @Temporal(TemporalType.DATE)
     private Date headerCreationDate;
 
-    @Column(name = "site_id2")
-    private String siteId2;
+    @Column(name = "site_id")
+    private String siteId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "target_id")

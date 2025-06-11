@@ -23,7 +23,7 @@ public class MaterialMaster {
 
     private String routingId;
 
-    private String siteId2;
+    private String siteId;
 
     private String partId;
 
