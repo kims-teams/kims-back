@@ -1,8 +1,8 @@
-package org.kt.finalproject.service;
+package org.kt.finalproject.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.entity.Department;
-import org.kt.finalproject.repository.DepartmentRepo;
+import org.kt.finalproject.user.entity.Department;
+import org.kt.finalproject.user.repository.DepartmentRepo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;

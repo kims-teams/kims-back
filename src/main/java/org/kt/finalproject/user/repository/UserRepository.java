@@ -1,7 +1,7 @@
-package org.kt.finalproject.repository;
+package org.kt.finalproject.user.repository;
 
 
-import org.kt.finalproject.entity.User;
+import org.kt.finalproject.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;

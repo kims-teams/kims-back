@@ -1,14 +1,14 @@
-package org.kt.finalproject.service;
+package org.kt.finalproject.user.service;
 
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.entity.User;
-import org.kt.finalproject.repository.UserRepository;
-import org.kt.finalproject.request.Login;
-import org.kt.finalproject.request.UserDto;
-import org.kt.finalproject.response.LoginResult;
+import org.kt.finalproject.user.entity.User;
+import org.kt.finalproject.user.repository.UserRepository;
+import org.kt.finalproject.user.request.Login;
+import org.kt.finalproject.user.request.UserDto;
+import org.kt.finalproject.user.response.LoginResult;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

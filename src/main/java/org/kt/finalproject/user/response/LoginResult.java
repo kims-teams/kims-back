@@ -1,10 +1,10 @@
-package org.kt.finalproject.response;
+package org.kt.finalproject.user.response;
 
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.kt.finalproject.entity.User;
+import org.kt.finalproject.user.entity.User;
 
 
 @Setter
