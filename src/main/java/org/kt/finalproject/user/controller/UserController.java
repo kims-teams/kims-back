@@ -1,18 +1,18 @@
-package org.kt.finalproject.controller;
+package org.kt.finalproject.user.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.entity.User;
-import org.kt.finalproject.repository.UserRepository;
-import org.kt.finalproject.request.Login;
-import org.kt.finalproject.request.UserDto;
-import org.kt.finalproject.response.LoginResult;
+import org.kt.finalproject.user.entity.User;
+import org.kt.finalproject.user.repository.UserRepository;
+import org.kt.finalproject.user.request.Login;
+import org.kt.finalproject.user.request.UserDto;
+import org.kt.finalproject.user.response.LoginResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.kt.finalproject.service.UserService;
+import org.kt.finalproject.user.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

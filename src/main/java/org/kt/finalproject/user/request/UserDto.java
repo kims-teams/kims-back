@@ -1,4 +1,4 @@
-package org.kt.finalproject.request;
+package org.kt.finalproject.user.request;
 
 
 import jakarta.validation.constraints.Email;
