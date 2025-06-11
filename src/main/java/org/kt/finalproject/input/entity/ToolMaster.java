@@ -24,8 +24,8 @@ public class ToolMaster {
     @Column(name = "tool_name")
     private String toolName;
 
-    @Column(name = "site_id2")
-    private String siteId2;
+    @Column(name = "site_id")
+    private String siteId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resource_id")

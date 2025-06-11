@@ -33,7 +33,7 @@ public class Operation {
 
     private Integer operationSeq;
 
-    private String siteId2;
+    private String siteId;
 
     @ManyToOne
     @JoinColumn(name = "bop_id")
