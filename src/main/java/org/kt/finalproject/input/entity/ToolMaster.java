@@ -15,20 +15,16 @@ public class ToolMaster {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "tool_id")
     private String toolId;
 
-    @Column(name = "tool_type")
-    private String toolType;
+    private String toolState;
 
-    @Column(name = "tool_name")
+    @ManyToOne
+    private Scenario scenario;
+
     private String toolName;
 
-    @Column(name = "site_id")
-    private String siteId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "resource_id")
+    @ManyToOne
     private Resource resource;
 }
 

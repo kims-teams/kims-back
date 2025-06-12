@@ -15,16 +15,15 @@ public class ManufacturingProcess {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
-    private String routingId;
-
     private String routingType;
 
     private String routingName;
 
-    private String siteId;
+    private String routingId;
 
     @ManyToOne
-    @JoinColumn(name = "bop_id")
+    private Scenario scenario;
+
+    @ManyToOne
     private Bop bop;
 }

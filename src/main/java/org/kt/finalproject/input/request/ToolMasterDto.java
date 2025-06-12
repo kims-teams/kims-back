@@ -12,6 +12,6 @@ public class ToolMasterDto {
     private String toolId;
     private String toolName;
     private String toolType;
-    private String siteId2;
+    private String siteId;
     private Integer resourceId;
 }

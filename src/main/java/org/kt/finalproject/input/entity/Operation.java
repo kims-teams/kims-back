@@ -15,25 +15,22 @@ public class Operation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer runTime;
-
-    private String runTimeUom;
-
-    private String waitTimeUom;
-
-    private String transferTimeUom;
-
-    private String sourcingType;
-
     private String operationId;
 
-    private String operationName;
+    private String operationNmae;
+
+    private int runTime;
+
+    private String tunTimeUom;
+
+    private int operationSeq;
 
     private String operationType;
 
-    private Integer operationSeq;
+    private String sourcingType;
 
-    private String siteId;
+    @ManyToOne
+    private Scenario scenario;
 
     @ManyToOne
     @JoinColumn(name = "bop_id")

@@ -21,6 +21,6 @@ public class SalesOrderDto {
     private String orderType;
     private String orderTypeName;
     private Date headerCreationDate;
-    private String siteId2;
+    private String siteId;
     private Integer targetId; // target 객체 대신 id만
 }

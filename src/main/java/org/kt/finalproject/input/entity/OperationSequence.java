@@ -15,19 +15,19 @@ public class OperationSequence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String routingId;
+
     private String operationId;
+
+    private String operationName;
 
     private Integer operationSeq;
 
     private String operationType;
 
-    private String operationName;
-
-    private String routingId;
-
-    private String siteId;
+    @ManyToOne
+    private Scenario scenario;
 
     @ManyToOne
-    @JoinColumn(name = "bop_id")
     private Bop bop;
 }

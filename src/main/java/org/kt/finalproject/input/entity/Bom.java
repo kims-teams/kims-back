@@ -18,17 +18,11 @@ public class Bom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String toSiteId;
-
     private String toPartId;
-
-    private String bomCategory;
 
     private BigDecimal outQty;
 
     private String outUom;
-
-    private String fromSiteId;
 
     private String fromPartId;
 
@@ -36,27 +30,17 @@ public class Bom {
 
     private String inUom;
 
-    private LocalDateTime createDatetime;
-
-    private LocalDateTime effStartDate;
-
-    private String createBy;
-
     private String toPartName;
-
-    private String fromPartName;
 
     private BigDecimal zseq;
 
-    private BigDecimal bomVersion;
+    @ManyToOne
+    private Scenario scenario;
 
     private BigDecimal fromPartLevel;
 
     private BigDecimal toPartLevel;
 
-    private String siteId2;
-
     @ManyToOne
-    @JoinColumn(name = "bop_id")
     private Bop bop;
 }
