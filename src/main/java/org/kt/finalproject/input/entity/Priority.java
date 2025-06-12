@@ -17,17 +17,16 @@ public class Priority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "factor_id")
-    private String factorId;
+    private String priorityId;
 
-    @Column(name = "field")
-    private String field;
+    private int factorId;
 
-    @Column(name = "order_type", length = 90)
-    private String orderType;
+    private int sequence;
 
-    @Column(name = "description", columnDefinition = "text")
     private String description;
+
+    @ManyToOne
+    private Scenario scenario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "config_id")

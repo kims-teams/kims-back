@@ -15,22 +15,14 @@ public class ToolMap {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "tool_size")
-    private Integer toolSize;
+    @ManyToOne
+    private Scenario scenario;
 
-    @Column(name = "part_name")
-    private String partName;
-
-    @Column(name = "tool_id")
-    private String toolId;
-
-    @Column(name = "site_id")
-    private String siteId;
-
-    @Column(name = "port_id")
     private String portId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "resource_id")
+    private String toolId;
+
+    private String partName;
+    @ManyToOne
     private Resource resource;
 }

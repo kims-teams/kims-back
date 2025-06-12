@@ -15,17 +15,16 @@ public class MaterialMaster {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String partId;
+
     private String partType;
-
-    private String partName;
-
-    private String uom;
 
     private String routingId;
 
-    private String siteId;
+    private String partName;
 
-    private String partId;
+    @ManyToOne
+    private Scenario scenario;
 
     @ManyToOne
     @JoinColumn(name = "bop_id")

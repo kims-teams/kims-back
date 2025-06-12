@@ -15,9 +15,12 @@ public class PlantMaster {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String siteId;
+    private int siteId;
 
     private String siteName;
+
+    @ManyToOne
+    private Scenario scenario;
 
     @ManyToOne
     @JoinColumn(name = "bop_id")
