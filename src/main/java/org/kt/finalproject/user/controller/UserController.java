@@ -1,5 +1,6 @@
 package org.kt.finalproject.user.controller;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.kt.finalproject.user.repository.UserRepository;
 import org.kt.finalproject.user.request.Login;
 import org.kt.finalproject.user.request.UserDto;
 import org.kt.finalproject.user.response.LoginResult;
+import org.kt.finalproject.util.interceptor.AuthInter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -55,20 +58,18 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser (@PathVariable Long id){
+    public ResponseEntity<?> deleteUser (@PathVariable Integer id){
 
         return userService.deleteUser(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser (@PathVariable Long id,
+    public ResponseEntity<?> updateUser (@PathVariable Integer id,
                                       @RequestAttribute String subject,
                                       @RequestBody @Valid UserDto dto,
                                       BindingResult result) {
 
         return userService.updateUser(id, subject, dto, result);
-
     }
-
 
 }
