@@ -77,7 +77,7 @@ public class UserService {
         return ResponseEntity.status(201).body(user);
     }
 
-    public ResponseEntity<?> deleteUser(Long id) {
+    public ResponseEntity<?> deleteUser(Integer id) {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (optionalUser.isEmpty()) {
@@ -89,7 +89,7 @@ public class UserService {
         return ResponseEntity.status(200).body("유저 삭제 완료");
     }
 
-    public ResponseEntity<?> updateUser(Long id,
+    public ResponseEntity<?> updateUser(Integer id,
                                         String subject,
                                         UserDto dto,
                                         BindingResult result) {
