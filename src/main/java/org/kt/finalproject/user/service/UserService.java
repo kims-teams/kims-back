@@ -63,12 +63,12 @@ public class UserService {
 
         User user = User.builder()
                 .email(dto.getEmail())
-                .password(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()))
+                .password(BCrypt.hashpw("0000", BCrypt.gensalt()))
                 .name(dto.getName())
                 .position(dto.getPosition())
-                .password("0000")
                 .status("재직중")
                 .createdAt(LocalDateTime.now())
+                .role(dto.getRole())
                 .build();
 
         userRepository.save(user);
@@ -98,50 +98,68 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("입력값이 유효하지 않습니다.");
         }
 
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("유저를 찾을 수 없습니다.");
+
+        // 로그인한 사용자 조회
+        Optional<User> optionalLoginUser = userRepository.findByEmail(subject);
+        if (optionalLoginUser.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인한 사용자를 찾을 수 없습니다.");
         }
 
-        User user = optionalUser.get();
+        User loginUser = optionalLoginUser.get();
 
-        if (!user.getEmail().equals(subject)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("본인만 수정할 수 있습니다.");
+        // 수정 대상 사용자 조회
+        Optional<User> optionalTargetUser = userRepository.findById(id);
+        if (optionalTargetUser.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("수정할 사용자를 찾을 수 없습니다.");
         }
 
-        if (dto.getName() != null) {
-            user.setName(dto.getName());
+        User targetUser = optionalTargetUser.get();
+
+        boolean isSelf = loginUser.getEmail().equals(targetUser.getEmail());
+        boolean isAdmin = "ADMIN".equalsIgnoreCase(loginUser.getRole());
+        boolean targetIsAdmin = "ADMIN".equalsIgnoreCase(targetUser.getRole());
+
+        if (dto.getRole() != null) {
+            if (!isAdmin) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("관리자만 다른 사용자의 권한을 수정할 수 있습니다.");
+            }
+
+            if (targetIsAdmin) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("다른 관리자의 권한은 수정할 수 없습니다.");
+            }
+
+            targetUser.setRole(dto.getRole());
         }
 
-        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-            user.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
+        // 일반 유저일땐 다른사람 수정 불가
+        if (!isSelf && !isAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("다른 사용자의 정보를 수정할 수 없습니다.");
         }
 
-        if (dto.getDepartment() != null) {
-            user.setDepartment(dto.getDepartment());
+        // USER 더라도 비번 폰번 수정허용
+        if (isSelf) {
+            if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+                targetUser.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
+            }
+
+            if (dto.getPhone() != null) {
+                targetUser.setPhone(dto.getPhone());
+            }
         }
 
-        if (dto.getPosition() != null) {
-            user.setPosition(dto.getPosition());
+        // 관리자는 타겟유저 필드 수정 가능
+        if (isAdmin) {
+            if (dto.getName() != null) targetUser.setName(dto.getName());
+            if (dto.getDepartment() != null) targetUser.setDepartment(dto.getDepartment());
+            if (dto.getPosition() != null) targetUser.setPosition(dto.getPosition());
+            if (dto.getHireDate() != null) targetUser.setHireDate(dto.getHireDate());
+            if (dto.getStatus() != null) targetUser.setStatus(dto.getStatus());
         }
 
-        if (dto.getPhone() != null) {
-            user.setPhone(dto.getPhone());
-        }
+        targetUser.setUpdatedAt(LocalDateTime.now());
+        userRepository.save(targetUser);
 
-        if (dto.getHireDate() != null) {
-            user.setHireDate(dto.getHireDate());
-        }
-
-        if (dto.getStatus() != null) {
-            user.setStatus(dto.getStatus());
-        }
-
-        user.setUpdatedAt(LocalDateTime.now());
-
-        userRepository.save(user);
-
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(targetUser);
     }
 
 }
