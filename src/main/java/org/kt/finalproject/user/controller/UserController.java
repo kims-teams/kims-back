@@ -35,7 +35,7 @@ public class UserController {
     @Value("${secret}")
     private String secret;
 
-
+    // user 목록
     @GetMapping
     public ResponseEntity<List<User>> getUserHandle() {
         List<User> userList = userRepository.findAll();
@@ -49,7 +49,6 @@ public class UserController {
        return userService.postUserHandle(dto,result);
 
     }
-
 
 
     @PostMapping("/login")

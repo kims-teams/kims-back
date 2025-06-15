@@ -2,6 +2,7 @@ package org.kt.finalproject.input.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.kt.finalproject.input.service.InputService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InputController {
 
-    @PostMapping
-    public ResponseEntity<?> saveInputData(@RequestBody List<Object> item, @RequestParam("data-type") String dataType){
+    private final InputService inputService;
 
+    @PostMapping("/{dataType}")
+    public ResponseEntity<?> saveInputData(@RequestBody String item, @PathVariable("dataType") String dataType){
 
+        int input = inputService.saveInputData(item, dataType);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(input).build();
     }
 }
