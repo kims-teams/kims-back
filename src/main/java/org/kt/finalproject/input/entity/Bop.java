@@ -17,5 +17,5 @@ public class Bop {
     private int id;
 
     @OneToOne
-    private InputData inputData;
+    private Scenario scenario;
 }
