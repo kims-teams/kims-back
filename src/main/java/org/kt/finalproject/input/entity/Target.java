@@ -17,5 +17,5 @@ public class Target {
     private int id;
 
     @OneToOne
-    private InputData inputData;
+    private Scenario scenario;
 }

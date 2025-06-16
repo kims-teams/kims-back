@@ -18,5 +18,5 @@ public class Resource {
     private int id;
 
     @OneToOne
-    private InputData inputData;
+    private Scenario scenario;
 }
