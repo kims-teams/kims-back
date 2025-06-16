@@ -13,7 +13,7 @@ import lombok.*;
 public class Scenario {
 
     @Id
-    private String id;
+    private int id;
 
     private String name;
 }
