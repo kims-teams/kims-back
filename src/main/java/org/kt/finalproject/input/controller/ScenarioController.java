@@ -6,6 +6,8 @@ import org.kt.finalproject.input.repository.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -25,14 +27,20 @@ public class ScenarioController {
         Scenario scenario = Scenario.builder().name(scenarioName).build();
         scenarioRepository.save(scenario);
         scenario = scenarioRepository.findByName(scenarioName);
-        Bop bop = Bop.builder().scenario(scenario).build(); bopRepository.save(bop);
-        Config config = Config.builder().scenario(scenario).build(); configRepository.save(config);
-        Resource resource = Resource.builder().scenario(scenario).build(); resourceRepository.save(resource);
-        Target target = Target.builder().scenario(scenario).build(); targetRepository.save(target);
+        Bop bop = Bop.builder().scenario(scenario).build(); bopRepository.save(bop); bop = bopRepository.findByScenario(scenario);
+        Config config = Config.builder().scenario(scenario).build(); configRepository.save(config); config = configRepository.findByScenario(scenario);
+        Resource resource = Resource.builder().scenario(scenario).build(); resourceRepository.save(resource); resource = resourceRepository.findByScenario(scenario);
+        Target target = Target.builder().scenario(scenario).build(); targetRepository.save(target); target = targetRepository.findByScenario(scenario);
 
+        Map<String,Object> map = new HashMap<>();
+        map.put("scenario",scenario);
+        map.put("bop",bop);
+        map.put("config",config);
+        map.put("resource",resource);
+        map.put("target",target);
 
-
-        return ResponseEntity.status(200).body(null);
+        return ResponseEntity.status(200).body(map);
     }
+
 
 }
