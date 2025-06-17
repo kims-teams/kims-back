@@ -1,15 +1,10 @@
 package org.kt.finalproject.input.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.input.entity.*;
 import org.kt.finalproject.input.repository.*;
 import org.kt.finalproject.input.service.ScenarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/scenario")
