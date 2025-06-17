@@ -12,21 +12,28 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/department")
+@RequestMapping("/api/scenario")
 @CrossOrigin
 @RequiredArgsConstructor
 public class ScenarioController {
 
     private final ScenarioService scenarioService;
+    private final ScenarioRepository scenarioRepository;
 
     @PostMapping("/{scenarioName}")
     public ResponseEntity<?> saveScenario(@PathVariable("scenarioName") String scenarioName) {
+        System.out.println("asd");
         return scenarioService.saveScenario(scenarioName);
     }
 
     @GetMapping("/{scenarioName}")
-    public ResponseEntity<?> getScenario(@PathVariable("scenarioName") String scenarioName) {
+    public ResponseEntity<?> getScenarioData(@PathVariable("scenarioName") String scenarioName) {
         return scenarioService.getScenario(scenarioName);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getScenario(){
+        return ResponseEntity.status(200).body(scenarioRepository.findAll());
     }
 
 
