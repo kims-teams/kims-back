@@ -1,6 +1,8 @@
 package org.kt.finalproject.input.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.input.entity.*;
@@ -8,6 +10,8 @@ import org.kt.finalproject.input.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,16 +30,32 @@ public class InputService {
     private final ToolMasterRepository toolMasterRepository;
     private final WorkcenterMapRepository workcenterMapRepository;
     private final WorkcenterMasterRepository workcenterMasterRepository;
+    private final ScenarioRepository scenarioRepository;
 
 
-    public int saveInputData(String item, String dataType) {
+    public int saveInputData(String item, String dataType) throws JsonProcessingException {
+
+        JsonNode root = mapper.readTree(item);
+        JsonNode dataArray = root.path("data").path("data");
+        Optional<Scenario> OpScenario = scenarioRepository.findById(root.path("scenario_id").asInt());
+        if(OpScenario.isEmpty()){
+            System.out.println("❌ 해당 ID의 시나리오가 없습니다: " + root.path("scenario_id").asInt());
+            return 400;
+        }
+        Scenario scenario = OpScenario.get();
+
+        System.out.println("data = " + item);
 
         try {
             switch (dataType) {
                 case "bom" -> {
-                    List<Bom> bomList = mapper.readValue(item,
+                    List<Bom> bomList = mapper.readValue(dataArray.traverse(),
                             new TypeReference<>() {
                             });
+
+                    for (Bom bom : bomList){
+                        bom.setScenario(scenario);
+                    }
 
                     bomRepository.saveAll(bomList);
                 }
@@ -122,6 +142,7 @@ public class InputService {
             }
             return 200;
         } catch (Exception e) {
+            System.out.println(e);
             return 500;
         }
     }

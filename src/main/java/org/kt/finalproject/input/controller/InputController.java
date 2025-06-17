@@ -1,5 +1,6 @@
 package org.kt.finalproject.input.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.input.service.InputService;
@@ -20,7 +21,9 @@ public class InputController {
 
     //================ 입력데이터 저장 API =================
     @PostMapping("/{dataType}")
-    public ResponseEntity<?> saveInputData(@RequestBody String item, @PathVariable("dataType") String dataType){
+    public ResponseEntity<?> saveInputData(@RequestBody String item, @PathVariable("dataType") String dataType) throws JsonProcessingException {
+
+        System.out.println(dataType);
 
         int input = inputService.saveInputData(item, dataType); // 서비스로 저장 위임 ( 결과 status 코드로 반환 )
 

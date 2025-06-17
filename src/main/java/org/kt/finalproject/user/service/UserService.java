@@ -68,7 +68,8 @@ public class UserService {
                 .position(dto.getPosition())
                 .status("재직중")
                 .createdAt(LocalDateTime.now())
-                .role(dto.getRole())
+                .hireDate(dto.getHireDate())
+                .role("USER")
                 .build();
 
         userRepository.save(user);
