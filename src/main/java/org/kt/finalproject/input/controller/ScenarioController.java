@@ -19,11 +19,14 @@ public class ScenarioController {
 
     private final ScenarioService scenarioService;
 
+
+    //================ 시나리오 저장 API =================
     @PostMapping("/{scenarioName}")
     public ResponseEntity<?> saveScenario(@PathVariable("scenarioName") String scenarioName) {
         return scenarioService.saveScenario(scenarioName);
     }
 
+    //================ 시나리오 조회 API =================
     @GetMapping("/{scenarioName}")
     public ResponseEntity<?> getScenario(@PathVariable("scenarioName") String scenarioName) {
         return scenarioService.getScenario(scenarioName);
