@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface WorkcenterMasterRepository extends JpaRepository<WorkcenterMaster, Integer> {
     List<WorkcenterMaster> findByScenario(Scenario scenario);
+
+    List<?> findByScenarioId(int scenarioId);
 }

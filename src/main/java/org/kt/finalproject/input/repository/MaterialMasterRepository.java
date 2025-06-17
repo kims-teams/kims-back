@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface MaterialMasterRepository extends JpaRepository<MaterialMaster, Integer> {
     List<MaterialMaster> findByScenario(Scenario scenario);
+
+    List<?> findByScenarioId(int scenarioId);
 }

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ToolMapRepository extends JpaRepository<ToolMap, Integer> {
     List<ToolMap> findByScenario(Scenario scenario);
+
+    List<?> findByScenarioId(int scenarioId);
 }

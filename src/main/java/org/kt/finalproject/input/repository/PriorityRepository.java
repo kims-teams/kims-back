@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface PriorityRepository extends JpaRepository<Priority, Integer> {
     List<Priority> findByScenario(Scenario scenario);
+
+    List<?> findByScenarioId(int scenarioId);
 }

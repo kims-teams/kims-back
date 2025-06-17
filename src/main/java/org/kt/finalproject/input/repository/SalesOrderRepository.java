@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SalesOrderRepository extends JpaRepository<SalesOrder, Integer> {
     List<SalesOrder> findByScenario(Scenario scenario);
+
+    List<?> findByScenarioId(int scenarioId);
 }

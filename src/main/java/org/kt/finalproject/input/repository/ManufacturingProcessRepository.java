@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ManufacturingProcessRepository extends JpaRepository<ManufacturingProcess, Integer> {
     List<ManufacturingProcess> findByScenario(Scenario scenario);
+
+    List<?> findByScenarioId(int scenarioId);
 }

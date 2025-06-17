@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface BomRepository extends JpaRepository<Bom, Integer> {
     List<Bom> findByScenario(Scenario scenario);
+
+    List<?> findByScenarioId(int scenarioId);
 }

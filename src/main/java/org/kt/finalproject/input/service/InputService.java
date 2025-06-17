@@ -59,14 +59,14 @@ public class InputService {
 
                     bomRepository.saveAll(bomList);
                 }
-                case "manufacturing-process" -> {
+                case "manufacturing_process" -> {
                     List<ManufacturingProcess> manufacturingProcessList = mapper.readValue(item,
                             new TypeReference<>() {
                             });
 
                     manufacturingProcessRepository.saveAll(manufacturingProcessList);
                 }
-                case "material-master" -> {
+                case "material_master" -> {
                     List<MaterialMaster> materialMasterList = mapper.readValue(item,
                             new TypeReference<>() {
                             });
@@ -80,14 +80,14 @@ public class InputService {
 
                     operationRepository.saveAll(operationList);
                 }
-                case "operationSequence" -> {
+                case "operation_sequence" -> {
                     List<OperationSequence> operationSequenceList = mapper.readValue(item,
                             new TypeReference<>() {
                             });
 
                     operationSequenceRepository.saveAll(operationSequenceList);
                 }
-                case "plantMaster" -> {
+                case "plant_master" -> {
                     List<PlantMaster> plantMasterList = mapper.readValue(item,
                             new TypeReference<>() {
                             });
@@ -101,35 +101,35 @@ public class InputService {
 
                     priorityRepository.saveAll(priorityList);
                 }
-                case "salesOrder" -> {
+                case "sales_order" -> {
                     List<SalesOrder> salesOrderList = mapper.readValue(item,
                             new TypeReference<>() {
                             });
 
                     salesOrderRepository.saveAll(salesOrderList);
                 }
-                case "toolMap" -> {
+                case "tool_map" -> {
                     List<ToolMap> toolMapList = mapper.readValue(item,
                             new TypeReference<>() {
                             });
 
                     toolMapRepository.saveAll(toolMapList);
                 }
-                case "toolMaster" -> {
+                case "tool_master" -> {
                     List<ToolMaster> toolMasterList = mapper.readValue(item,
                             new TypeReference<>() {
                             });
 
                     toolMasterRepository.saveAll(toolMasterList);
                 }
-                case "workcenterMap" -> {
+                case "workcenter_map" -> {
                     List<WorkcenterMap> workcenterMapList = mapper.readValue(item,
                             new TypeReference<>() {
                             });
 
                     workcenterMapRepository.saveAll(workcenterMapList);
                 }
-                case "workcenterMaster" -> {
+                case "workcenter_master" -> {
                     List<WorkcenterMaster> workcenterMasterList = mapper.readValue(item,
                             new TypeReference<>() {
                             });
@@ -145,5 +145,24 @@ public class InputService {
             System.out.println(e);
             return 500;
         }
+
+    }
+    public List<?> getInputDataByScenario(int scenarioId, String dataType){
+        return switch (dataType) {
+            case "bom" -> bomRepository.findByScenarioId(scenarioId);
+            case "manufacturing_process" -> manufacturingProcessRepository.findByScenarioId(scenarioId);
+            case "material_master" -> materialMasterRepository.findByScenarioId(scenarioId);
+            case "operation" -> operationRepository.findByScenarioId(scenarioId);
+            case "operation_sequence" -> operationSequenceRepository.findByScenarioId(scenarioId);
+            case "plant_master" -> plantMasterRepository.findByScenarioId(scenarioId);
+            case "priority" -> priorityRepository.findByScenarioId(scenarioId);
+            case "sales_order" -> salesOrderRepository.findByScenarioId(scenarioId);
+            case "tool_map" -> toolMapRepository.findByScenarioId(scenarioId);
+            case "tool_master" -> toolMasterRepository.findByScenarioId(scenarioId);
+            case "workcenter_map" -> workcenterMapRepository.findByScenarioId(scenarioId);
+            case "workcenter_master" -> workcenterMasterRepository.findByScenarioId(scenarioId);
+            default -> throw new IllegalArgumentException("지원하지 않는 dataType: " + dataType);
+        };
+
     }
 }
