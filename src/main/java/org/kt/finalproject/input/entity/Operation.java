@@ -17,11 +17,11 @@ public class Operation {
 
     private String operationId;
 
-    private String operationNmae;
+    private String operationName;
 
     private int runTime;
 
-    private String tunTimeUom;
+    private String runTimeUom;
 
     private int operationSeq;
 
