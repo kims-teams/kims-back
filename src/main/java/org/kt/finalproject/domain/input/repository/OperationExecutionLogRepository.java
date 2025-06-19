@@ -1,6 +1,6 @@
-package org.kt.finalproject.input.repository;
+package org.kt.finalproject.domain.input.repository;
 
-import org.kt.finalproject.input.entity.OperationExecutionLog;
+import org.kt.finalproject.domain.input.entity.OperationExecutionLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

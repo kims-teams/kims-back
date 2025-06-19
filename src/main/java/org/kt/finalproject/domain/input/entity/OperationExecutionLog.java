@@ -1,4 +1,4 @@
-package org.kt.finalproject.input.entity;
+package org.kt.finalproject.domain.input.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
