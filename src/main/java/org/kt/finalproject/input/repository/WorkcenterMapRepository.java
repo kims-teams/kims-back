@@ -10,4 +10,7 @@ public interface WorkcenterMapRepository extends JpaRepository<WorkcenterMap, In
     List<WorkcenterMap> findByScenario(Scenario scenario);
 
     List<?> findByScenarioId(int scenarioId);
+
+    //
+    List<WorkcenterMap> findByOperationId(String operationId);
 }

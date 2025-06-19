@@ -1,5 +1,6 @@
 package org.kt.finalproject.input.repository;
 
+import org.kt.finalproject.input.entity.Operation;
 import org.kt.finalproject.input.entity.Scenario;
 import org.kt.finalproject.input.entity.ToolMap;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,10 @@ public interface ToolMapRepository extends JpaRepository<ToolMap, Integer> {
     List<ToolMap> findByScenario(Scenario scenario);
 
     List<?> findByScenarioId(int scenarioId);
+
+    //
+    List<ToolMap> findByPartId(String partId);
+
+
+
 }

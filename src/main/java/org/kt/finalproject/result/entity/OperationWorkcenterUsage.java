@@ -1,38 +1,31 @@
-package org.kt.finalproject.input.entity;
-
+package org.kt.finalproject.result.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "operation_execution_log")
+@Table(name = "operation_workcenter_usage")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OperationExecutionLog {
+public class OperationWorkcenterUsage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    private Scenario scenario;
-
-    @ManyToOne
-    private Operation operation;
+    @JoinColumn(name = "execution_log_id")
+    private OperationExecutionLog executionLog;
 
     private String workcenterId;
-
-    private String toolId;
 
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
-
-    private Integer durationMinutes;
 
     private String remarks;
 }
