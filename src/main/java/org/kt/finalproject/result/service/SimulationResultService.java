@@ -1,11 +1,11 @@
 package org.kt.finalproject.result.service;
 
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.input.entity.*;
-import org.kt.finalproject.input.repository.OperationRepository;
-import org.kt.finalproject.input.repository.OperationSequenceRepository;
-import org.kt.finalproject.input.repository.ToolMapRepository;
-import org.kt.finalproject.input.repository.WorkcenterMapRepository;
+import org.kt.finalproject.domain.input.entity.*;
+import org.kt.finalproject.domain.input.repository.OperationRepository;
+import org.kt.finalproject.domain.input.repository.OperationSequenceRepository;
+import org.kt.finalproject.domain.input.repository.ToolMapRepository;
+import org.kt.finalproject.domain.input.repository.WorkcenterMapRepository;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
 import org.kt.finalproject.result.entity.OperationToolUsage;
 import org.kt.finalproject.result.entity.OperationWorkcenterUsage;

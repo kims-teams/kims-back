@@ -1,9 +1,8 @@
 package org.kt.finalproject.result.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
-import org.kt.finalproject.input.entity.Operation;
-import org.kt.finalproject.input.entity.Scenario;
+import org.kt.finalproject.domain.input.entity.Operation;
+import org.kt.finalproject.domain.input.entity.Scenario;
 
 import java.time.LocalDateTime;
 
