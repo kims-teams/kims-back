@@ -14,4 +14,8 @@ public interface OperationToolUsageRepository extends JpaRepository<OperationToo
 
     // 도구 ID로 조회
     List<OperationToolUsage> findByToolId(String toolId);
+
+
+    //
+    List<OperationToolUsage> findByExecutionLog_ScenarioId(int scenarioId);
 }
