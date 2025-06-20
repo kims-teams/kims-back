@@ -18,7 +18,7 @@ public class ToolMap {
     @ManyToOne
     private Scenario scenario;
 
-    private String portId;
+    private String partId;
 
     private String toolId;
 

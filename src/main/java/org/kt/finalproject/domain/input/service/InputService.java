@@ -27,7 +27,7 @@ public class InputService {
     private final PlantMasterRepository plantMasterRepository;
     private final PriorityRepository priorityRepository;
     private final SalesOrderRepository salesOrderRepository;
-    private final ToolMapRepository toolMapRepository;
+    private final org.kt.finalproject.domain.input.repository.ToolMapRepository toolMapRepository;
     private final ToolMasterRepository toolMasterRepository;
     private final WorkcenterMapRepository workcenterMapRepository;
     private final WorkcenterMasterRepository workcenterMasterRepository;

@@ -13,6 +13,6 @@ public class ToolMapDto {
     private String partName;
     private String toolId;
     private String siteId;
-    private String portId;
+    private String partId;
     private Integer resourceId; // 참조 객체 대신 id만
 }
