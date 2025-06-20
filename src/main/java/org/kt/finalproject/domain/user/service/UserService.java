@@ -155,6 +155,7 @@ public class UserService {
             if (dto.getPosition() != null) targetUser.setPosition(dto.getPosition());
             if (dto.getHireDate() != null) targetUser.setHireDate(dto.getHireDate());
             if (dto.getStatus() != null) targetUser.setStatus(dto.getStatus());
+            if (dto.getPhone() != null) targetUser.setPhone(dto.getPhone());
         }
 
         targetUser.setUpdatedAt(LocalDateTime.now());
