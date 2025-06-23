@@ -1,12 +1,13 @@
-package org.kt.finalproject.post.request;
+package org.kt.finalproject.domain.post.request;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CommentUpdateRequest {
+public class CommentCreateRequest {
     private String content;
     private Integer postId;
     private Integer userId;
+
 }

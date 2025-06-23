@@ -1,9 +1,9 @@
-package org.kt.finalproject.post.entity;
+package org.kt.finalproject.domain.post.entity;
 
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.kt.finalproject.user.entity.User;
+import org.kt.finalproject.domain.user.entity.User;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +24,8 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)  // 게시글 여러개가 한 명의 작성자(User)에 연결
     @JoinColumn(name = "user_id")   // DB의 user_id 컬럼과 연결됨
     private User user;  // 자바에서 이 필드는 '작성자 객체(User)' 로 사용
+
+
 
     @Column(nullable = false, length = 200)
     private String title;

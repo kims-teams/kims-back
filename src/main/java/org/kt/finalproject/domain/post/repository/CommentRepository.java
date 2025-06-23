@@ -1,6 +1,6 @@
-package org.kt.finalproject.post.repository;
+package org.kt.finalproject.domain.post.repository;
 
-import org.kt.finalproject.post.entity.Comment;
+import org.kt.finalproject.domain.post.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
