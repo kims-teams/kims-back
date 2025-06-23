@@ -1,11 +1,11 @@
-package org.kt.finalproject.post.controller;
+package org.kt.finalproject.domain.post.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.post.request.CommentCreateRequest;
-import org.kt.finalproject.post.request.CommentUpdateRequest;
-import org.kt.finalproject.post.response.CommentResponse;
-import org.kt.finalproject.post.service.CommentService;
+import org.kt.finalproject.domain.post.request.CommentCreateRequest;
+import org.kt.finalproject.domain.post.request.CommentUpdateRequest;
+import org.kt.finalproject.domain.post.response.CommentResponse;
+import org.kt.finalproject.domain.post.service.CommentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.kt.finalproject.post.response;
+package org.kt.finalproject.domain.post.response;
 
 import lombok.Builder;
 import lombok.Getter;
