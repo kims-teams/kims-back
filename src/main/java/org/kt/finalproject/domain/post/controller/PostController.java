@@ -1,12 +1,14 @@
-package org.kt.finalproject.post.controller;
+package org.kt.finalproject.domain.post.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.kt.finalproject.post.entity.Post;
-import org.kt.finalproject.post.request.PostCreateRequest;
-import org.kt.finalproject.post.request.PostUpdateRequest;
-import org.kt.finalproject.post.response.PostResponse;
-import org.kt.finalproject.post.service.PostService;
+import org.kt.finalproject.domain.post.entity.PostCategory;
+import org.kt.finalproject.domain.post.repository.PostCategoryRepository;
+import org.kt.finalproject.domain.post.request.PostCreateRequest;
+import org.kt.finalproject.domain.post.request.PostUpdateRequest;
+import org.kt.finalproject.domain.post.response.PostResponse;
+import org.kt.finalproject.domain.post.service.PostService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final PostCategoryRepository postCategoryRepository;
 
     // 게시글 등록
     @PostMapping
@@ -45,5 +48,10 @@ public class PostController {
     @DeleteMapping("/{id}")
     public void deletePost(@PathVariable Integer id) {
         postService.deletePost(id);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<List<PostCategory>> getAllCategory(){
+        return ResponseEntity.ok(postCategoryRepository.findAll());
     }
 }

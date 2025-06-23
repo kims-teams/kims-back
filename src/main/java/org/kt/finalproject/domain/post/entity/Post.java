@@ -1,10 +1,9 @@
-package org.kt.finalproject.post.entity;
+package org.kt.finalproject.domain.post.entity;
 
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.kt.finalproject.domain.user.entity.User;
-
 
 import java.time.LocalDateTime;
 
@@ -26,6 +25,8 @@ public class Post {
     @JoinColumn(name = "user_id")   // DB의 user_id 컬럼과 연결됨
     private User user;  // 자바에서 이 필드는 '작성자 객체(User)' 로 사용
 
+
+
     @Column(nullable = false, length = 200)
     private String title;
 
@@ -39,4 +40,7 @@ public class Post {
 
     @Column(nullable = false)
     private boolean deleted;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PostCategory category;
 }

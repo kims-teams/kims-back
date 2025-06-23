@@ -1,15 +1,15 @@
-package org.kt.finalproject.post.service;
+package org.kt.finalproject.domain.post.service;
 
 import lombok.RequiredArgsConstructor;
+import org.kt.finalproject.domain.post.entity.Comment;
+import org.kt.finalproject.domain.post.entity.Post;
+import org.kt.finalproject.domain.post.repository.CommentRepository;
+import org.kt.finalproject.domain.post.repository.PostRepository;
+import org.kt.finalproject.domain.post.request.CommentCreateRequest;
+import org.kt.finalproject.domain.post.request.CommentUpdateRequest;
+import org.kt.finalproject.domain.post.response.CommentResponse;
 import org.kt.finalproject.domain.user.entity.User;
 import org.kt.finalproject.domain.user.repository.UserRepository;
-import org.kt.finalproject.post.entity.Comment;
-import org.kt.finalproject.post.entity.Post;
-import org.kt.finalproject.post.repository.CommentRepository;
-import org.kt.finalproject.post.repository.PostRepository;
-import org.kt.finalproject.post.request.CommentCreateRequest;
-import org.kt.finalproject.post.request.CommentUpdateRequest;
-import org.kt.finalproject.post.response.CommentResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
