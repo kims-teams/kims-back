@@ -23,36 +23,35 @@ public class SimulationResultController {
     private final SimulationResultService simulationResultService;
     private final ScenarioRepository scenarioRepository;
 
-    private final OperationExecutionLogRepository executionLogRepository;
-    private final OperationToolUsageRepository toolUsageRepository;
-    private final OperationWorkcenterUsageRepository workcenterUsageRepository;
-
 
     @PostMapping("/run")
-    public ResponseEntity<?> runSimulation(@RequestParam String routingId,
-                                           @RequestParam int scenarioId) {
+    public ResponseEntity<String> runByScenario(@RequestParam int scenarioId) {
         Scenario scenario = scenarioRepository.findById(scenarioId)
-                .orElseThrow(() -> new RuntimeException("시나리오 없음: " + scenarioId));
-        simulationResultService.runSimulation(routingId, scenario);
+                .orElseThrow(() -> new RuntimeException("시나리오 없음"));
+
+        simulationResultService.runSimulation(scenario);
         return ResponseEntity.ok("시뮬레이션 완료");
     }
 
 
     @GetMapping("/results")
-    public ResponseEntity<List<OperationExecutionLog>> getSimulationResults(@RequestParam int scenarioId) {
-        List<OperationExecutionLog> results = executionLogRepository.findByScenarioId(scenarioId);
-        return ResponseEntity.ok(results);
+    public ResponseEntity<List<OperationExecutionLog>> getResults(@RequestParam int scenarioId) {
+        return ResponseEntity.ok(
+                simulationResultService.getExecutionLogsByScenarioId(scenarioId)
+        );
     }
 
     @GetMapping("/tool-usage")
     public ResponseEntity<List<OperationToolUsage>> getToolUsage(@RequestParam int scenarioId) {
-        List<OperationToolUsage> tools = toolUsageRepository.findByExecutionLog_ScenarioId(scenarioId);
-        return ResponseEntity.ok(tools);
+        return ResponseEntity.ok(
+                simulationResultService.getToolUsageByScenarioId(scenarioId)
+        );
     }
 
     @GetMapping("/workcenter-usage")
     public ResponseEntity<List<OperationWorkcenterUsage>> getWorkcenterUsage(@RequestParam int scenarioId) {
-        List<OperationWorkcenterUsage> wcs = workcenterUsageRepository.findByExecutionLog_ScenarioId(scenarioId);
-        return ResponseEntity.ok(wcs);
+        return ResponseEntity.ok(
+                simulationResultService.getWorkcenterUsageByScenarioId(scenarioId)
+        );
     }
 }
