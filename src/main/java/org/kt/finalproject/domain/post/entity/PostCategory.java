@@ -1,13 +1,17 @@
 package org.kt.finalproject.domain.post.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
+@Setter
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "post_category")
 public class PostCategory {
 
     @Id
@@ -16,7 +20,7 @@ public class PostCategory {
 
     private String name;
 
-    @Column(name = "created_at", updatable = false)
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

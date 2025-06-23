@@ -40,4 +40,7 @@ public class Post {
 
     @Column(nullable = false)
     private boolean deleted;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PostCategory category;
 }
