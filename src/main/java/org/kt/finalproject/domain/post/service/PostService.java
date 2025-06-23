@@ -3,6 +3,8 @@ package org.kt.finalproject.domain.post.service;
 
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.domain.post.entity.Post;
+import org.kt.finalproject.domain.post.entity.PostCategory;
+import org.kt.finalproject.domain.post.repository.PostCategoryRepository;
 import org.kt.finalproject.domain.post.repository.PostRepository;
 import org.kt.finalproject.domain.post.request.PostCreateRequest;
 import org.kt.finalproject.domain.post.request.PostUpdateRequest;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PostCategoryRepository postCategoryRepository;
 
 //============================= 엔티티 직통, 재사용, 내부 호출, 테스트 용도 =============================
     public Post save(Post post) {
@@ -45,6 +48,9 @@ public class PostService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("작성자 없음"));
 
+        PostCategory category = postCategoryRepository.findByName(request.getCategoryName())
+                .orElseThrow(() -> new IllegalArgumentException("카테고리 없음"));
+
         // 엔티티 생성
         Post post = Post.builder()
                 .title(request.getTitle())
@@ -52,6 +58,7 @@ public class PostService {
                 .user(user)
                 .deleted(false)
                 .createdAt(LocalDateTime.now())
+                .category(category)
                 .build();
         Post saved = postRepository.save(post);
 
@@ -95,9 +102,10 @@ public class PostService {
                 .content(post.getContent())
                 .writerName(post.getUser() != null ? post.getUser().getName() : null)
                 .writerId(post.getUser() != null ? post.getUser().getId().toString() : null)
-                .createdAt(LocalDateTime.now().toString())
+                .createdAt(post.getCreatedAt() != null ? post.getCreatedAt().toString() : null)
                 .updatedAt(post.getUpdatedAt() != null ? post.getUpdatedAt().toString() : null)
                 .deleted(post.isDeleted())
+                .categoryName(post.getCategory() != null ? post.getCategory().getName() : null)
                 .build();
     }
 
