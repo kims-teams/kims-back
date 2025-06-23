@@ -3,6 +3,7 @@ package org.kt.finalproject.result.controller;
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.domain.input.entity.Scenario;
 import org.kt.finalproject.domain.input.repository.ScenarioRepository;
+import org.kt.finalproject.result.DTO.ExecutionSummaryDto;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
 import org.kt.finalproject.result.entity.OperationToolUsage;
 import org.kt.finalproject.result.entity.OperationWorkcenterUsage;
@@ -53,5 +54,10 @@ public class SimulationResultController {
         return ResponseEntity.ok(
                 simulationResultService.getWorkcenterUsageByScenarioId(scenarioId)
         );
+    }
+
+    @GetMapping("/summary")
+    public ResponseEntity<List<ExecutionSummaryDto>> getSummary() {
+        return ResponseEntity.ok(simulationResultService.getExecutionSummaryList());
     }
 }

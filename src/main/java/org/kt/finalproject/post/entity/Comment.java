@@ -2,7 +2,8 @@ package org.kt.finalproject.post.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.kt.finalproject.user.entity.User;
+import org.kt.finalproject.domain.user.entity.User;
+
 
 import java.time.LocalDateTime;
 

@@ -1,11 +1,10 @@
 package org.kt.finalproject.result.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.domain.input.entity.*;
-import org.kt.finalproject.domain.input.repository.OperationRepository;
-import org.kt.finalproject.domain.input.repository.OperationSequenceRepository;
-import org.kt.finalproject.domain.input.repository.ToolMapRepository;
-import org.kt.finalproject.domain.input.repository.WorkcenterMapRepository;
+import org.kt.finalproject.domain.input.repository.*;
+import org.kt.finalproject.result.DTO.ExecutionSummaryDto;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
 import org.kt.finalproject.result.entity.OperationToolUsage;
 import org.kt.finalproject.result.entity.OperationWorkcenterUsage;
@@ -14,11 +13,10 @@ import org.kt.finalproject.result.repository.OperationToolUsageRepository;
 import org.kt.finalproject.result.repository.OperationWorkcenterUsageRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +30,9 @@ public class SimulationResultService {
     private final OperationExecutionLogRepository executionLogRepository;
     private final OperationToolUsageRepository toolUsageRepository;
     private final OperationWorkcenterUsageRepository workcenterUsageRepository;
+
+    private final ScenarioRepository scenarioRepository;
+    private final HttpServletRequest request;
 
     public void runSimulation(Scenario scenario) {
         List<OperationSequence> sequenceList =
@@ -66,7 +67,7 @@ public class SimulationResultService {
                 }
             }
 
-            //  도구 후보 조회 (partId로 조회)
+            //  도구 후보 조회
             List<ToolMap> toolMaps = toolMapRepository.findByOperationId(operationId);
             String selectedToolId = null;
             LocalDateTime toolReady = null;
@@ -143,5 +144,59 @@ public class SimulationResultService {
     public List<OperationWorkcenterUsage> getWorkcenterUsageByScenarioId(int scenarioId) {
         return workcenterUsageRepository.findByExecutionLog_ScenarioId(scenarioId);
     }
+
+
+
+    public List<ExecutionSummaryDto> getExecutionSummaryList() {
+        List<Scenario> scenarios = scenarioRepository.findAll();
+        List<ExecutionSummaryDto> results = new ArrayList<>();
+
+        //  JWT subject (email) / JWT 토큰의 subject에 로그인한 유저의 email을 넣어둠
+        String userEmail = "guest";
+        Object subject = request.getAttribute("subject");
+        if (subject != null) {
+            userEmail = subject.toString();
+        }
+
+        for (Scenario scenario : scenarios) {
+            List<OperationExecutionLog> logs = executionLogRepository.findByScenarioId(scenario.getId());
+            if (logs.isEmpty()) continue;
+
+            // 시작/종료 계산
+            LocalDateTime start = logs.stream()
+                    .map(OperationExecutionLog::getStartTime)
+                    .min(LocalDateTime::compareTo)
+                    .orElse(null);
+
+            LocalDateTime end = logs.stream()
+                    .map(OperationExecutionLog::getEndTime)
+                    .max(LocalDateTime::compareTo)
+                    .orElse(null);
+
+            Duration duration = Duration.between(start, end);
+
+            String version = "Experiment_" + scenario.getId() + "_" + start.format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
+
+            ExecutionSummaryDto dto = ExecutionSummaryDto.builder()
+                    .version(version)
+                    .scenarioName(scenario.getName())
+                    .status("Complete")
+                    .duration(String.format("%02d:%02d:%02d",
+                            duration.toHours(),
+                            duration.toMinutesPart(),
+                            duration.toSecondsPart()))
+                    .startTime(start)
+                    .endTime(end)
+                    .schedule(start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                    .userId(userEmail)
+                    .errorMessage(null)
+                    .build();
+
+            results.add(dto);
+        }
+
+        return results;
+    }
+
 
 }
