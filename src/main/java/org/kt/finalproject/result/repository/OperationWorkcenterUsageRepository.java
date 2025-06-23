@@ -10,8 +10,11 @@ import java.util.List;
 public interface OperationWorkcenterUsageRepository extends JpaRepository<OperationWorkcenterUsage, Integer> {
 
     // 실행 로그 기준 조회
-    List<OperationWorkcenterUsage> findByExecutionLog_Id(Integer executionLogId);
+    List<OperationWorkcenterUsage> findByExecutionLogId(Integer executionLogId);
 
     // 설비 ID 기준 조회 (자원간트용)
     List<OperationWorkcenterUsage> findByWorkcenterId(String workcenterId);
+
+    //
+    List<OperationWorkcenterUsage> findByExecutionLog_ScenarioId(int scenarioId);
 }

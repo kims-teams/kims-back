@@ -13,4 +13,7 @@ public interface OperationSequenceRepository extends JpaRepository<OperationSequ
 
     //
     List<OperationSequence> findByRoutingIdOrderByOperationSeqAsc(String routingId);
+
+    // /
+    List<OperationSequence> findByScenarioIdOrderByOperationSeqAsc(int scenarioId);
 }

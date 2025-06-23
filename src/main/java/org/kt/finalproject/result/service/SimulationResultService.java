@@ -15,6 +15,7 @@ import org.kt.finalproject.result.repository.OperationWorkcenterUsageRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +33,13 @@ public class SimulationResultService {
     private final OperationToolUsageRepository toolUsageRepository;
     private final OperationWorkcenterUsageRepository workcenterUsageRepository;
 
-    public void runSimulation(String routingId, Scenario scenario) {
+    public void runSimulation(Scenario scenario) {
         List<OperationSequence> sequenceList =
-                operationSequenceRepository.findByRoutingIdOrderByOperationSeqAsc(routingId);
+                operationSequenceRepository.findByScenarioIdOrderByOperationSeqAsc(scenario.getId());
 
+        LocalDateTime current = LocalDateTime.of(2025, 6, 23, 9, 0);
         Map<String, LocalDateTime> toolAvailable = new HashMap<>();
         Map<String, LocalDateTime> wcAvailable = new HashMap<>();
-        LocalDateTime baseTime = LocalDateTime.of(2025, 6, 18, 9, 0);
 
         for (OperationSequence seq : sequenceList) {
             String operationId = seq.getOperationId();
@@ -47,41 +48,53 @@ public class SimulationResultService {
                     .orElseThrow(() -> new RuntimeException("작업 없음: " + operationId));
             int runTime = operation.getRunTime();
 
-            // 1. 작업에 연결된 workcenterMap → partId 추출
+            //  작업장 후보 목록 조회
             List<WorkcenterMap> wcMaps = workcenterMapRepository.findByOperationId(operationId);
             if (wcMaps.isEmpty()) continue;
-            String partId = wcMaps.get(0).getPartId();
 
-            // 2. 해당 작업에 가능한 workcenter 중 가장 빨리 가능한 것 선택
+            //  가장 빨리 가능한 작업장 선택
             String selectedWcId = null;
             LocalDateTime wcReady = null;
+            String partId = null;
             for (WorkcenterMap wc : wcMaps) {
                 String wcId = wc.getWorkcenterId();
-                LocalDateTime available = wcAvailable.getOrDefault(wcId, baseTime);
+                LocalDateTime available = wcAvailable.getOrDefault(wcId, current);
                 if (selectedWcId == null || available.isBefore(wcReady)) {
                     selectedWcId = wcId;
                     wcReady = available;
+                    partId = wc.getPartId(); // 같이 사용
                 }
             }
 
-            // 3. partId에 매핑된 도구 중 가장 빨리 사용 가능한 것 선택
-            List<ToolMap> toolMaps = toolMapRepository.findByPartId(partId);
+            //  도구 후보 조회 (partId로 조회)
+            List<ToolMap> toolMaps = toolMapRepository.findByOperationId(operationId);
             String selectedToolId = null;
             LocalDateTime toolReady = null;
+
             for (ToolMap tool : toolMaps) {
-                String tId = tool.getToolId();
-                LocalDateTime available = toolAvailable.getOrDefault(tId, baseTime);
-                if (selectedToolId == null || available.isBefore(toolReady)) {
-                    selectedToolId = tId;
+                String toolId = tool.getToolId();
+                LocalDateTime available = toolAvailable.getOrDefault(toolId, current);
+
+                if (selectedToolId == null || toolReady == null || available.isBefore(toolReady)) {
+                    selectedToolId = toolId;
                     toolReady = available;
                 }
             }
 
-            // 4. 시작시간은 두 자원 중 늦은 시간
-            LocalDateTime startTime = (toolReady != null && toolReady.isAfter(wcReady)) ? toolReady : wcReady;
+            //  가장 늦은 자원 사용 가능 시간과 직렬로
+            LocalDateTime startTime = Collections.max(
+                    List.of(current,
+                            toolReady != null ? toolReady : current,
+                            wcReady != null ? wcReady : current)
+            );
             LocalDateTime endTime = startTime.plusMinutes(runTime);
 
-            // 5. 실행 로그 저장
+            // 자원 사용 시간 업데이트
+            if (selectedToolId != null) toolAvailable.put(selectedToolId, endTime);
+            wcAvailable.put(selectedWcId, endTime);
+            current = endTime;
+
+            //  실행 로그 저장
             OperationExecutionLog log = OperationExecutionLog.builder()
                     .scenario(scenario)
                     .operation(operation)
@@ -94,7 +107,7 @@ public class SimulationResultService {
                     .build();
             executionLogRepository.save(log);
 
-            // 6. 도구 사용 기록
+            //  도구 사용 이력 저장
             if (selectedToolId != null) {
                 toolUsageRepository.save(OperationToolUsage.builder()
                         .executionLog(log)
@@ -102,20 +115,33 @@ public class SimulationResultService {
                         .usageTimeMinutes(runTime)
                         .remarks(null)
                         .build());
-                toolAvailable.put(selectedToolId, endTime);
             }
 
-            // 7. 작업장 사용 기록
-            if (selectedWcId != null) {
-                workcenterUsageRepository.save(OperationWorkcenterUsage.builder()
-                        .executionLog(log)
-                        .workcenterId(selectedWcId)
-                        .startTime(startTime)
-                        .endTime(endTime)
-                        .remarks(null)
-                        .build());
-                wcAvailable.put(selectedWcId, endTime);
-            }
+            //  작업장 사용 이력 저장
+            workcenterUsageRepository.save(OperationWorkcenterUsage.builder()
+                    .executionLog(log)
+                    .workcenterId(selectedWcId)
+                    .startTime(startTime)
+                    .endTime(endTime)
+                    .remarks(null)
+                    .build());
         }
     }
+
+
+
+    public List<OperationExecutionLog> getExecutionLogsByScenarioId(int scenarioId) {
+        return executionLogRepository.findByScenarioId(scenarioId);
+    }
+
+
+    public List<OperationToolUsage> getToolUsageByScenarioId(int scenarioId) {
+        return toolUsageRepository.findByExecutionLog_ScenarioId(scenarioId);
+    }
+
+
+    public List<OperationWorkcenterUsage> getWorkcenterUsageByScenarioId(int scenarioId) {
+        return workcenterUsageRepository.findByExecutionLog_ScenarioId(scenarioId);
+    }
+
 }

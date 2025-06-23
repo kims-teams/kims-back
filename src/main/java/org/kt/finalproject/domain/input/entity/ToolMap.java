@@ -25,4 +25,7 @@ public class ToolMap {
     private String partName;
     @ManyToOne
     private Resource resource;
+
+    //추가
+    private String operationId;
 }
