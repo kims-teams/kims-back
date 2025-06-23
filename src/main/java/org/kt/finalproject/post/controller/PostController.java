@@ -1,0 +1,49 @@
+package org.kt.finalproject.post.controller;
+
+
+import lombok.RequiredArgsConstructor;
+import org.kt.finalproject.post.entity.Post;
+import org.kt.finalproject.post.request.PostCreateRequest;
+import org.kt.finalproject.post.request.PostUpdateRequest;
+import org.kt.finalproject.post.response.PostResponse;
+import org.kt.finalproject.post.service.PostService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/post")
+@RequiredArgsConstructor
+public class PostController {
+    private final PostService postService;
+
+    // 게시글 등록
+    @PostMapping
+    public PostResponse createPost(@RequestBody PostCreateRequest request) {
+        return postService.createPost(request);
+    }
+
+    // 게시글 전체 목록 조회
+    @GetMapping
+    public List<PostResponse> getAllPost() {
+        return postService.getAllPost();
+    }
+
+    // 게시글 상세 조회
+    @GetMapping("/{id}")
+    public PostResponse getPostById(@PathVariable Integer id) {
+        return postService.getPostById(id);
+    }
+
+    // 게시글 수정
+    @PutMapping("/{id}")
+    public PostResponse updatePost(@PathVariable Integer id, @RequestBody PostUpdateRequest request) {
+        return postService.updatePost(id, request);
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable Integer id) {
+        postService.deletePost(id);
+    }
+}
