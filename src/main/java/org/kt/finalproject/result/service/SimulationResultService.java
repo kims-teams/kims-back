@@ -67,7 +67,7 @@ public class SimulationResultService {
             }
 
             //  도구 후보 조회 (partId로 조회)
-            List<ToolMap> toolMaps = toolMapRepository.findByPartId(partId);
+            List<ToolMap> toolMaps = toolMapRepository.findByOperationId(operationId);
             String selectedToolId = null;
             LocalDateTime toolReady = null;
 

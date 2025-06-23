@@ -15,4 +15,7 @@ public class ToolMapDto {
     private String siteId;
     private String partId;
     private Integer resourceId; // 참조 객체 대신 id만
+
+    //추가
+    private String operationId;
 }
