@@ -47,10 +47,11 @@ public class PostService {
 
         // 엔티티 생성
         Post post = Post.builder()
-                .title(request.getTilte())
+                .title(request.getTitle())
                 .content(request.getContent())
                 .user(user)
                 .deleted(false)
+                .createdAt(LocalDateTime.now())
                 .build();
         Post saved = postRepository.save(post);
 
@@ -70,7 +71,7 @@ public class PostService {
 
     public PostResponse updatePost(Integer id, PostUpdateRequest request) {
         Post post = postRepository.findById(id).orElseThrow();
-        post.setTitle(request.getTilte());
+        post.setTitle(request.getTitle());
         post.setContent(request.getContent());
         post.setUpdatedAt(LocalDateTime.now());
 
@@ -94,7 +95,7 @@ public class PostService {
                 .content(post.getContent())
                 .writerName(post.getUser() != null ? post.getUser().getName() : null)
                 .writerId(post.getUser() != null ? post.getUser().getId().toString() : null)
-                .createdAt(post.getCreatedAt() != null ? post.getCreatedAt().toString() : null)
+                .createdAt(LocalDateTime.now().toString())
                 .updatedAt(post.getUpdatedAt() != null ? post.getUpdatedAt().toString() : null)
                 .deleted(post.isDeleted())
                 .build();

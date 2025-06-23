@@ -7,7 +7,7 @@ import org.kt.finalproject.user.entity.User;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "commnet")
+@Table(name = "comment")
 @Setter
 @Getter
 @AllArgsConstructor

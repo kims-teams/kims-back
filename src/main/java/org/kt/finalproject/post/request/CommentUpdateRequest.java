@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommnetUpdateRequest {
+public class CommentUpdateRequest {
     private String content;
     private Integer postId;
     private Integer userId;

@@ -6,7 +6,7 @@ import org.kt.finalproject.post.entity.Post;
 import org.kt.finalproject.post.repository.CommentRepository;
 import org.kt.finalproject.post.repository.PostRepository;
 import org.kt.finalproject.post.request.CommentCreateRequest;
-import org.kt.finalproject.post.request.CommnetUpdateRequest;
+import org.kt.finalproject.post.request.CommentUpdateRequest;
 import org.kt.finalproject.post.response.CommentResponse;
 import org.kt.finalproject.user.entity.User;
 import org.kt.finalproject.user.repository.UserRepository;
@@ -61,7 +61,7 @@ public class CommentService {
         return comments.stream().filter(comment -> !comment.isDeleted()).map(this::toCommentResponse).toList();
     }
 
-    public CommentResponse updateComment(Integer id, CommnetUpdateRequest request) {
+    public CommentResponse updateComment(Integer id, CommentUpdateRequest request) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
 
         comment.setContent(request.getContent());

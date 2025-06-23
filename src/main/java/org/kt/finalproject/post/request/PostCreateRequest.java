@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 public class PostCreateRequest {
 
-    private String tilte;
+    private String title;
     private String content;
     private Integer userId;
 }

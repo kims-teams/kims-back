@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PostUpdateRequest {
-    private String tilte;
+    private String title;
     private String content;
     private Integer userId;
 }

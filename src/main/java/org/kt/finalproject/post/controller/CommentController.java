@@ -3,7 +3,7 @@ package org.kt.finalproject.post.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.post.request.CommentCreateRequest;
-import org.kt.finalproject.post.request.CommnetUpdateRequest;
+import org.kt.finalproject.post.request.CommentUpdateRequest;
 import org.kt.finalproject.post.response.CommentResponse;
 import org.kt.finalproject.post.service.CommentService;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class CommentController {
 
     // 댓글 수정
     @PutMapping("/{id}")
-    public CommentResponse updateComment(@PathVariable Integer id, @RequestBody CommnetUpdateRequest request) {
+    public CommentResponse updateComment(@PathVariable Integer id, @RequestBody CommentUpdateRequest request) {
         return commentService.updateComment(id, request);
     }
 
