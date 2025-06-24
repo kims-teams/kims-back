@@ -22,7 +22,7 @@ public class PostController {
 
     // 게시글 등록
     @PostMapping
-    public PostResponse createPost(@RequestAttribute String subject, @RequestBody PostCreateRequest request) {
+    public PostResponse createPost(@RequestParam("email") String subject, @RequestBody PostCreateRequest request) {
         return postService.createPost(subject, request);
     }
 

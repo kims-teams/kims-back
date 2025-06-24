@@ -21,7 +21,7 @@ public class AuthInter implements HandlerInterceptor {
                              HttpServletResponse response,
                              Object handler) throws Exception {
 
-        System.out.println(secret);
+        System.out.println("secret = " + secret);
 
         if(request.getMethod().equals("OPTIONS")){
             return true;
