@@ -22,8 +22,8 @@ public class PostController {
 
     // 게시글 등록
     @PostMapping
-    public PostResponse createPost(@RequestBody PostCreateRequest request) {
-        return postService.createPost(request);
+    public PostResponse createPost(@RequestAttribute String subject, @RequestBody PostCreateRequest request) {
+        return postService.createPost(subject, request);
     }
 
     // 게시글 전체 목록 조회

@@ -43,9 +43,9 @@ public class PostService {
     }
 //================================================================================================
 
-    public PostResponse createPost(PostCreateRequest request) {
+    public PostResponse createPost(String subject, PostCreateRequest request) {
         // 작성자 찾기 (없으면 예외)
-        User user = userRepository.findById(request.getUserId())
+        User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("작성자 없음"));
 
         PostCategory category = postCategoryRepository.findByName(request.getCategoryName())
