@@ -3,13 +3,11 @@ package org.kt.finalproject.result.controller;
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.domain.input.entity.Scenario;
 import org.kt.finalproject.domain.input.repository.ScenarioRepository;
-import org.kt.finalproject.result.DTO.ExecutionSummaryDto;
+import org.kt.finalproject.result.DTO.ExecutionManageDto;
+import org.kt.finalproject.result.DTO.ExecutionResultDto;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
 import org.kt.finalproject.result.entity.OperationToolUsage;
 import org.kt.finalproject.result.entity.OperationWorkcenterUsage;
-import org.kt.finalproject.result.repository.OperationExecutionLogRepository;
-import org.kt.finalproject.result.repository.OperationToolUsageRepository;
-import org.kt.finalproject.result.repository.OperationWorkcenterUsageRepository;
 import org.kt.finalproject.result.service.SimulationResultService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,8 +54,14 @@ public class SimulationResultController {
         );
     }
 
-    @GetMapping("/summary")
-    public ResponseEntity<List<ExecutionSummaryDto>> getSummary() {
-        return ResponseEntity.ok(simulationResultService.getExecutionSummaryList());
+    @GetMapping("/execution-manage")
+    public ResponseEntity<List<ExecutionManageDto>> getExecutionManage() {
+        return ResponseEntity.ok(simulationResultService.getExecutionManage());
     }
+
+    @GetMapping("/execution-result")
+    public List<ExecutionResultDto> getExecutionResult(@RequestParam int scenarioId) {
+        return simulationResultService.getExecutionResult(scenarioId);
+    }
+
 }

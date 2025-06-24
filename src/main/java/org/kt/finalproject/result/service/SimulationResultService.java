@@ -4,7 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.domain.input.entity.*;
 import org.kt.finalproject.domain.input.repository.*;
-import org.kt.finalproject.result.DTO.ExecutionSummaryDto;
+import org.kt.finalproject.result.DTO.ExecutionManageDto;
+import org.kt.finalproject.result.DTO.ExecutionResultDto;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
 import org.kt.finalproject.result.entity.OperationToolUsage;
 import org.kt.finalproject.result.entity.OperationWorkcenterUsage;
@@ -147,11 +148,11 @@ public class SimulationResultService {
 
 
 
-    public List<ExecutionSummaryDto> getExecutionSummaryList() {
+    public List<ExecutionManageDto> getExecutionManage() {
         List<Scenario> scenarios = scenarioRepository.findAll();
-        List<ExecutionSummaryDto> results = new ArrayList<>();
+        List<ExecutionManageDto> results = new ArrayList<>();
 
-        //  JWT subject (email) / JWT 토큰의 subject에 로그인한 유저의 email을 넣어둠
+        //  JWT subject (email) / JWT 토큰의 subject에 로그인한 유저의 email을 넣어뒀었다
         String userEmail = "guest";
         Object subject = request.getAttribute("subject");
         if (subject != null) {
@@ -177,7 +178,7 @@ public class SimulationResultService {
 
             String version = "Experiment_" + scenario.getId() + "_" + start.format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
 
-            ExecutionSummaryDto dto = ExecutionSummaryDto.builder()
+            ExecutionManageDto dto = ExecutionManageDto.builder()
                     .version(version)
                     .scenarioName(scenario.getName())
                     .status("Complete")
@@ -199,4 +200,33 @@ public class SimulationResultService {
     }
 
 
+    public List<ExecutionResultDto> getExecutionResult (int scenarioId) {
+        List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
+
+        List<ExecutionResultDto> results = new ArrayList<>();
+        int no = 1;
+
+        for (OperationExecutionLog log : executionLogs) {
+            List<OperationToolUsage> toolUsages = toolUsageRepository.findByExecutionLogId(log.getId());
+
+            for (OperationToolUsage toolUsage : toolUsages) {
+                ExecutionResultDto dto = ExecutionResultDto.builder()
+                        .no(no++)
+                        .versionNo("TSK-" + log.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")))
+                        .toolId(toolUsage.getToolId())
+                        .workcenterId(log.getWorkcenterId())
+                        .seizeTime(log.getStartTime())
+                        .releaseTime(log.getEndTime())
+                        .toolList("") // 리스트에 넣을게 딱히...
+                        .availables("Y") // 시작시간/종료시간이 있어서 굳이 있어야? 암튼 무조건 Y
+                        .capacity("") // 용량에 넣을게 딱히...
+                        .scenarioName(log.getScenario().getName())
+                        .toolSeizeLogId(toolUsage.getId())
+                        .build();
+                results.add(dto);
+            }
+        }
+
+        return results;
+    }
 }
