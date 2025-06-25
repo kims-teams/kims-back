@@ -9,7 +9,7 @@ import lombok.*;
 public class OperationToolUsageDto {
 
     private Integer id;
-    private Integer ExecutionLogId;
+    private Integer executionLogId;
     private String toolId;
     private Integer usageTimeMinutes;
     private String remarks;

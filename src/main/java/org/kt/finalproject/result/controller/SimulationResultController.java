@@ -50,7 +50,7 @@ public class SimulationResultController {
     @GetMapping("/workcenter-usage")
     public ResponseEntity<List<OperationWorkCenterUsageDto>> getWorkcenterUsage(@RequestParam int scenarioId) {
         return ResponseEntity.ok(
-                simulationResultService.getWorkcenterUsageByScenarioId(scenarioId)
+                simulationResultService.getWorkCenterUsageByScenarioId(scenarioId)
         );
     }
 

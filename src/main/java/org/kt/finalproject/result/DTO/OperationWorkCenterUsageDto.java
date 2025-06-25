@@ -1,7 +1,5 @@
 package org.kt.finalproject.result.DTO;
-import jakarta.persistence.*;
 import lombok.*;
-import org.kt.finalproject.result.entity.OperationExecutionLog;
 
 import java.time.LocalDateTime;
 
