@@ -12,7 +12,6 @@ import org.kt.finalproject.domain.user.entity.User;
 @Builder
 public class LoginResult {
 
-
     private String token;
     private User user;
 

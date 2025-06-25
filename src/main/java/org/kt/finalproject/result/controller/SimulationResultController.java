@@ -8,6 +8,7 @@ import org.kt.finalproject.result.DTO.ExecutionResultDto;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
 import org.kt.finalproject.result.entity.OperationToolUsage;
 import org.kt.finalproject.result.entity.OperationWorkcenterUsage;
+import org.kt.finalproject.result.repository.OperationExecutionLogRepository;
 import org.kt.finalproject.result.service.SimulationResultService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class SimulationResultController {
 
     private final SimulationResultService simulationResultService;
     private final ScenarioRepository scenarioRepository;
+    private final OperationExecutionLogRepository operationExecutionLogRepository;
 
 
     @PostMapping("/run")
@@ -62,6 +64,11 @@ public class SimulationResultController {
     @GetMapping("/execution-result")
     public List<ExecutionResultDto> getExecutionResult(@RequestParam int scenarioId) {
         return simulationResultService.getExecutionResult(scenarioId);
+    }
+
+    @GetMapping("/execution-log/{scenarioId}")
+    public ResponseEntity<?> getLog(@PathVariable("scenarioId") int scenarioId){
+        return ResponseEntity.ok(operationExecutionLogRepository.findByScenarioId(scenarioId));
     }
 
 }
