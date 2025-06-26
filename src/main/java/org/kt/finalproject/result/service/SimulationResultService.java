@@ -137,28 +137,42 @@ public class SimulationResultService {
     }
 
     public List<OperationToolUsageDto> getToolUsageByScenarioId(int scenarioId) {
-        List<OperationToolUsageDto> result = new ArrayList<>();
-        result.add(OperationToolUsageDto.builder()
-                .id(1)
-                .executionLogId(100)
-                .toolId("TOOL-01")
-                .usageTimeMinutes(20)
-                .remarks("예시")
-                .build());
+        List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
+        List<OperationToolUsageDto> result = new ArrayList<>();
+
+        for (OperationExecutionLog log : executionLogs) {
+
+            OperationToolUsageDto toolUsage = OperationToolUsageDto.builder()
+                    .id(log.getId())
+                    .executionLogId(log.getId())
+                    .toolId(log.getToolId())
+                    .usageTimeMinutes(log.getDurationMinutes())
+                    .remarks(log.getRemarks())
+                    .build();
+
+            result.add(toolUsage);
+        }
         return result;
     }
     
     public List<OperationWorkCenterUsageDto> getWorkCenterUsageByScenarioId(int scenarioId) {
+        List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
+
         List<OperationWorkCenterUsageDto> result = new ArrayList<>();
-        result.add(OperationWorkCenterUsageDto.builder()
-                .id(1)
-                .executionLogId(100)
-                .workCenterId("WC-01")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusMinutes(20))
-                .remarks("**")
-                .build());
+
+        for (OperationExecutionLog log : executionLogs) {
+            OperationWorkCenterUsageDto workCenter = OperationWorkCenterUsageDto.builder()
+                    .id(log.getId())
+                    .executionLogId(log.getId())
+                    .workCenterId(log.getWorkcenterId())
+                    .startTime(log.getStartTime())
+                    .endTime(log.getEndTime())
+                    .remarks(log.getRemarks())
+                    .build();
+
+            result.add(workCenter);
+        }
 
         return result;
     }
