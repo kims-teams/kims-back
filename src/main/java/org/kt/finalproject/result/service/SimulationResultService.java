@@ -8,11 +8,11 @@ import org.kt.finalproject.result.DTO.ExecutionManageDto;
 import org.kt.finalproject.result.DTO.ExecutionResultDto;
 import org.kt.finalproject.result.DTO.GanttTaskDto;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
-import org.kt.finalproject.result.entity.OperationToolUsage;
-import org.kt.finalproject.result.entity.OperationWorkcenterUsage;
+import org.kt.finalproject.result.DTO.OperationToolUsageDto;
+import org.kt.finalproject.result.DTO.OperationWorkCenterUsageDto;
 import org.kt.finalproject.result.repository.OperationExecutionLogRepository;
-import org.kt.finalproject.result.repository.OperationToolUsageRepository;
-import org.kt.finalproject.result.repository.OperationWorkcenterUsageRepository;
+//import org.kt.finalproject.result.repository.OperationToolUsageRepository;
+//import org.kt.finalproject.result.repository.OperationWorkCenterUsageRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -30,8 +30,8 @@ public class SimulationResultService {
     private final ToolMapRepository toolMapRepository;
 
     private final OperationExecutionLogRepository executionLogRepository;
-    private final OperationToolUsageRepository toolUsageRepository;
-    private final OperationWorkcenterUsageRepository workcenterUsageRepository;
+//    private final OperationToolUsageRepository toolUsageRepository;
+//    private final OperationWorkCenterUsageRepository workCenterUsageRepository;
 
     private final ScenarioRepository scenarioRepository;
     private final HttpServletRequest request;
@@ -111,43 +111,73 @@ public class SimulationResultService {
                     .build();
             executionLogRepository.save(log);
 
-            //  도구 사용 이력 저장
-            if (selectedToolId != null) {
-                toolUsageRepository.save(OperationToolUsage.builder()
-                        .executionLog(log)
-                        .toolId(selectedToolId)
-                        .usageTimeMinutes(runTime)
-                        .remarks(null)
-                        .build());
-            }
-
-            //  작업장 사용 이력 저장
-            workcenterUsageRepository.save(OperationWorkcenterUsage.builder()
-                    .executionLog(log)
-                    .workcenterId(selectedWcId)
-                    .startTime(startTime)
-                    .endTime(endTime)
-                    .remarks(null)
-                    .build());
+//            //  도구 사용 이력 저장
+//            if (selectedToolId != null) {
+//                toolUsageRepository.save(OperationToolUsageDto.builder()
+//                        .executionLogId(log.getId())
+//                        .toolId(selectedToolId)
+//                        .usageTimeMinutes(runTime)
+//                        .remarks(null)
+//                        .build());
+//            }
+//
+//            //  작업장 사용 이력 저장
+//            workCenterUsageRepository.save(OperationWorkCenterUsageDto.builder()
+//                    .executionLogId(log.getId())
+//                    .workCenterId(selectedWcId)
+//                    .startTime(startTime)
+//                    .endTime(endTime)
+//                    .remarks(null)
+//                    .build());
+//        }
         }
     }
-
 
 
     public List<OperationExecutionLog> getExecutionLogsByScenarioId(int scenarioId) {
         return executionLogRepository.findByScenarioId(scenarioId);
     }
 
+    public List<OperationToolUsageDto> getToolUsageByScenarioId(int scenarioId) {
+        List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
-    public List<OperationToolUsage> getToolUsageByScenarioId(int scenarioId) {
-        return toolUsageRepository.findByExecutionLog_ScenarioId(scenarioId);
+        List<OperationToolUsageDto> result = new ArrayList<>();
+
+        for (OperationExecutionLog log : executionLogs) {
+
+            OperationToolUsageDto toolUsage = OperationToolUsageDto.builder()
+                    .id(log.getId())
+                    .executionLogId(log.getId())
+                    .toolId(log.getToolId())
+                    .usageTimeMinutes(log.getDurationMinutes())
+                    .remarks(log.getRemarks())
+                    .build();
+
+            result.add(toolUsage);
+        }
+        return result;
     }
+    
+    public List<OperationWorkCenterUsageDto> getWorkCenterUsageByScenarioId(int scenarioId) {
+        List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
+        List<OperationWorkCenterUsageDto> result = new ArrayList<>();
 
-    public List<OperationWorkcenterUsage> getWorkcenterUsageByScenarioId(int scenarioId) {
-        return workcenterUsageRepository.findByExecutionLog_ScenarioId(scenarioId);
+        for (OperationExecutionLog log : executionLogs) {
+            OperationWorkCenterUsageDto workCenter = OperationWorkCenterUsageDto.builder()
+                    .id(log.getId())
+                    .executionLogId(log.getId())
+                    .workCenterId(log.getWorkcenterId())
+                    .startTime(log.getStartTime())
+                    .endTime(log.getEndTime())
+                    .remarks(log.getRemarks())
+                    .build();
+
+            result.add(workCenter);
+        }
+
+        return result;
     }
-
 
 
     public List<ExecutionManageDto> getExecutionManage() {
@@ -202,16 +232,16 @@ public class SimulationResultService {
     }
 
 
-    public List<ExecutionResultDto> getExecutionResult (int scenarioId) {
+    public List<ExecutionResultDto> getExecutionResult(int scenarioId) {
         List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
         List<ExecutionResultDto> results = new ArrayList<>();
         int no = 1;
 
         for (OperationExecutionLog log : executionLogs) {
-            List<OperationToolUsage> toolUsages = toolUsageRepository.findByExecutionLogId(log.getId());
+            List<OperationToolUsageDto> toolUsages = new ArrayList<>();
 
-            for (OperationToolUsage toolUsage : toolUsages) {
+            for (OperationToolUsageDto toolUsage : toolUsages) {
                 ExecutionResultDto dto = ExecutionResultDto.builder()
                         .no(no++)
                         .versionNo("TSK-" + log.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")))
