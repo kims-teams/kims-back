@@ -239,10 +239,10 @@ public class SimulationResultService {
         int i = 1;
         for(OperationExecutionLog log : LogList){
             GanttTaskDto ganttTaskDto = GanttTaskDto.builder()
-                    .TaskID(i)
-                    .TaskName(log.getRemarks())
-                    .StartDate(log.getStartTime())
-                    .EndDate(log.getEndTime())
+                    .taskId(i)
+                    .taskName(log.getRemarks())
+                    .startDate(log.getStartTime())
+                    .endDate(log.getEndTime())
                     .build();
             ganttTaskDtoList.add(ganttTaskDto);
             i++;
