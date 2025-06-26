@@ -22,7 +22,6 @@ public class SimulationResultController {
 
     private final SimulationResultService simulationResultService;
     private final ScenarioRepository scenarioRepository;
-    private final OperationExecutionLogRepository operationExecutionLogRepository;
 
 
     @PostMapping("/run")
