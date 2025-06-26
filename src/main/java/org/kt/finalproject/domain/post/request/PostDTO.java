@@ -17,6 +17,7 @@ public class PostDTO {
     private String writerName;
     private String writerEmail;
     private String categoryName;
+    private Boolean isDeleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
