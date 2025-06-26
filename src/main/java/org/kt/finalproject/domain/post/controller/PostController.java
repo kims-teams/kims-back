@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/post")
@@ -42,7 +43,7 @@ public class PostController {
                 .orElseThrow(() -> new IllegalArgumentException("카테고리 없음"));
         List<Post> postList = postRepository.findByCategory(name);
 
-        List<PostDTO> dtoList = postList.stream()
+        List<PostDTO> dtoList = new java.util.ArrayList<>(postList.stream()
                 .sorted((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()))
                 .map(post -> {
                     PostDTO.PostDTOBuilder builder = PostDTO.builder()
@@ -50,7 +51,8 @@ public class PostController {
                             .title(post.getTitle())
                             .content(post.getContent())
                             .createdAt(post.getCreatedAt())
-                            .updatedAt(post.getUpdatedAt());
+                            .updatedAt(post.getUpdatedAt())
+                            .isDeleted(post.isDeleted());
 
                     if (post.getUser() != null) {
                         builder.writerId(post.getUser().getId());
@@ -61,9 +63,8 @@ public class PostController {
                         builder.categoryName(post.getCategory().getName());
                     }
                     return builder.build();
-                }).toList();
-
-        return ResponseEntity.ok(dtoList);
+                }).toList());
+        return ResponseEntity.ok(dtoList.removeIf(PostDTO::getIsDeleted));
     }
 
     // 게시글 상세 조회
