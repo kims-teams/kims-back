@@ -62,8 +62,8 @@ public class SimulationResultController {
         return ResponseEntity.ok(simulationResultService.getExecutionManage());
     }
 
-    @GetMapping("/production-gantt")
-    public List<GanttTaskDto> getProductionGantt(@RequestParam int scenarioId) {
-        return simulationResultService.getProductionGantt(scenarioId);
+    @GetMapping("/production-gantt/{scenarioId}")
+    public ResponseEntity<List<GanttTaskDto>> getProductionGantt(@PathVariable("scenarioId") int scenarioId) {
+        return ResponseEntity.ok(simulationResultService.getProductionGantt(scenarioId));
     }
 }
