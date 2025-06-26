@@ -1,4 +1,5 @@
 package org.kt.finalproject.result.repository;
+import org.kt.finalproject.domain.input.entity.Scenario;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,5 @@ public interface OperationExecutionLogRepository extends JpaRepository<Operation
     // 설비 기준 조회 (자원간트용)
     List<OperationExecutionLog> findByWorkcenterId(String workcenterId);
 
+    int scenario(Scenario scenario);
 }
