@@ -53,6 +53,7 @@ public class PostController {
                             .updatedAt(post.getUpdatedAt());
 
                     if (post.getUser() != null) {
+                        builder.writerId(post.getUser().getId());
                         builder.writerName(post.getUser().getName());
                         builder.writerEmail(post.getUser().getEmail());
                     }
