@@ -14,6 +14,7 @@ import org.kt.finalproject.domain.post.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +34,9 @@ public class PostController {
 
     // 게시글 전체 목록 조회
     @GetMapping
-    public List<PostResponse> getAllPost() {
-        return postService.getAllPost();
+    public ResponseEntity<List<PostResponse>> getAllPost() {
+        List<PostResponse> postResponseList = postService.getAllPost();
+        return ResponseEntity.ok(postResponseList);
     }
 
     @GetMapping("/post-category/{categoryName}")
@@ -43,7 +45,8 @@ public class PostController {
                 .orElseThrow(() -> new IllegalArgumentException("카테고리 없음"));
         List<Post> postList = postRepository.findByCategory(name);
 
-        List<PostDTO> dtoList = new java.util.ArrayList<>(postList.stream()
+        List<PostDTO> dtoList = new ArrayList<>(postList.stream()
+                .filter(post -> !post.isDeleted())
                 .sorted((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()))
                 .map(post -> {
                     PostDTO.PostDTOBuilder builder = PostDTO.builder()
@@ -64,7 +67,7 @@ public class PostController {
                     }
                     return builder.build();
                 }).toList());
-        return ResponseEntity.ok(dtoList.removeIf(PostDTO::getIsDeleted));
+        return ResponseEntity.ok(dtoList);
     }
 
     // 게시글 상세 조회
