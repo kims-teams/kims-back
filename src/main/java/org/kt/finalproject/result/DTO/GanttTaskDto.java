@@ -1,5 +1,6 @@
 package org.kt.finalproject.result.DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,8 +11,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GanttTaskDto {
+    @JsonProperty("TaskID")
     private int taskId;
+    @JsonProperty("TaskName")
     private String taskName;
+    @JsonProperty("StartDate")
     private LocalDateTime startDate;
+    @JsonProperty("EndDate")
     private LocalDateTime endDate;
 }
