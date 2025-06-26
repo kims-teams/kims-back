@@ -6,6 +6,7 @@ import org.kt.finalproject.domain.input.entity.*;
 import org.kt.finalproject.domain.input.repository.*;
 import org.kt.finalproject.result.DTO.ExecutionManageDto;
 import org.kt.finalproject.result.DTO.ExecutionResultDto;
+import org.kt.finalproject.result.DTO.GanttTaskDto;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
 import org.kt.finalproject.result.DTO.OperationToolUsageDto;
 import org.kt.finalproject.result.DTO.OperationWorkCenterUsageDto;
@@ -34,6 +35,7 @@ public class SimulationResultService {
 
     private final ScenarioRepository scenarioRepository;
     private final HttpServletRequest request;
+    private final OperationExecutionLogRepository operationExecutionLogRepository;
 
     public void runSimulation(Scenario scenario) {
         List<OperationSequence> sequenceList =
@@ -259,4 +261,60 @@ public class SimulationResultService {
 
         return results;
     }
+
+    public List<GanttTaskDto> getProductionGantt(int scenarioId){
+        List<OperationExecutionLog> LogList = operationExecutionLogRepository.findByScenarioId(scenarioId);
+
+        List<GanttTaskDto> ganttTaskDtoList = new ArrayList<>();
+        int i = 1;
+        for(OperationExecutionLog log : LogList){
+            GanttTaskDto ganttTaskDto = GanttTaskDto.builder()
+                    .taskId(i)
+                    .taskName(log.getRemarks())
+                    .startDate(log.getStartTime())
+                    .endDate(log.getEndTime())
+                    .build();
+            ganttTaskDtoList.add(ganttTaskDto);
+            i++;
+        }
+        return ganttTaskDtoList;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

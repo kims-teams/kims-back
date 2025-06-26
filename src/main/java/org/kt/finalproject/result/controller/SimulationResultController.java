@@ -5,6 +5,7 @@ import org.kt.finalproject.domain.input.entity.Scenario;
 import org.kt.finalproject.domain.input.repository.ScenarioRepository;
 import org.kt.finalproject.result.DTO.ExecutionManageDto;
 import org.kt.finalproject.result.DTO.ExecutionResultDto;
+import org.kt.finalproject.result.DTO.GanttTaskDto;
 import org.kt.finalproject.result.entity.OperationExecutionLog;
 import org.kt.finalproject.result.DTO.OperationToolUsageDto;
 import org.kt.finalproject.result.DTO.OperationWorkCenterUsageDto;
@@ -21,6 +22,7 @@ public class SimulationResultController {
 
     private final SimulationResultService simulationResultService;
     private final ScenarioRepository scenarioRepository;
+    private final OperationExecutionLogRepository operationExecutionLogRepository;
 
 
     @PostMapping("/run")
@@ -59,9 +61,8 @@ public class SimulationResultController {
         return ResponseEntity.ok(simulationResultService.getExecutionManage());
     }
 
-    @GetMapping("/execution-result")
-    public List<ExecutionResultDto> getExecutionResult(@RequestParam int scenarioId) {
-        return simulationResultService.getExecutionResult(scenarioId);
+    @GetMapping("/production-gantt/{scenarioId}")
+    public ResponseEntity<List<GanttTaskDto>> getProductionGantt(@PathVariable("scenarioId") int scenarioId) {
+        return ResponseEntity.ok(simulationResultService.getProductionGantt(scenarioId));
     }
-
 }
