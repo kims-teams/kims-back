@@ -5,6 +5,7 @@ import org.kt.finalproject.domain.input.entity.WorkcenterMap;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface WorkcenterMapRepository extends JpaRepository<WorkcenterMap, Integer> {
     List<WorkcenterMap> findByScenario(Scenario scenario);
@@ -13,4 +14,6 @@ public interface WorkcenterMapRepository extends JpaRepository<WorkcenterMap, In
 
     //
     List<WorkcenterMap> findByOperationId(String operationId);
+
+    Optional<WorkcenterMap> findByScenarioAndWorkcenterId(Scenario scenario, String workcenterId);
 }

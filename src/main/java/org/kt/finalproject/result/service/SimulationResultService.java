@@ -139,6 +139,7 @@ public class SimulationResultService {
     }
 
     public List<OperationToolUsageDto> getToolUsageByScenarioId(int scenarioId) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
         List<OperationToolUsageDto> result = new ArrayList<>();
@@ -146,10 +147,11 @@ public class SimulationResultService {
         for (OperationExecutionLog log : executionLogs) {
 
             OperationToolUsageDto toolUsage = OperationToolUsageDto.builder()
-                    .id(log.getId())
-                    .executionLogId(log.getId())
-                    .toolId(log.getToolId())
-                    .usageTimeMinutes(log.getDurationMinutes())
+                    .operationId(log.getOperation().getOperationSeq() + "")
+                    .toolId(log.getToolId() == null ? "NONE" : log.getToolId())
+                    .startTime(log.getStartTime().format(formatter))
+                    .endTime(log.getEndTime().format(formatter))
+                    .durationMinute(log.getDurationMinutes())
                     .remarks(log.getRemarks())
                     .build();
 
@@ -159,17 +161,19 @@ public class SimulationResultService {
     }
     
     public List<OperationWorkCenterUsageDto> getWorkCenterUsageByScenarioId(int scenarioId) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
         List<OperationWorkCenterUsageDto> result = new ArrayList<>();
 
         for (OperationExecutionLog log : executionLogs) {
+
             OperationWorkCenterUsageDto workCenter = OperationWorkCenterUsageDto.builder()
-                    .id(log.getId())
-                    .executionLogId(log.getId())
-                    .workCenterId(log.getWorkcenterId())
-                    .startTime(log.getStartTime())
-                    .endTime(log.getEndTime())
+                    .operationId(log.getOperation().getOperationSeq() + "")
+                    .workcenterId(log.getWorkcenterId())
+                    .startTime(log.getStartTime().format(formatter))
+                    .endTime(log.getEndTime().format(formatter))
+                    .durationMinute(log.getDurationMinutes())
                     .remarks(log.getRemarks())
                     .build();
 
@@ -233,33 +237,7 @@ public class SimulationResultService {
 
 
     public List<ExecutionResultDto> getExecutionResult(int scenarioId) {
-        List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
-
-        List<ExecutionResultDto> results = new ArrayList<>();
-        int no = 1;
-
-        for (OperationExecutionLog log : executionLogs) {
-            List<OperationToolUsageDto> toolUsages = new ArrayList<>();
-
-            for (OperationToolUsageDto toolUsage : toolUsages) {
-                ExecutionResultDto dto = ExecutionResultDto.builder()
-                        .no(no++)
-                        .versionNo("TSK-" + log.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")))
-                        .toolId(toolUsage.getToolId())
-                        .workcenterId(log.getWorkcenterId())
-                        .seizeTime(log.getStartTime())
-                        .releaseTime(log.getEndTime())
-                        .toolList("") // 리스트에 넣을게 딱히...
-                        .availables("Y") // 시작시간/종료시간이 있어서 굳이 있어야? 암튼 무조건 Y
-                        .capacity("") // 용량에 넣을게 딱히...
-                        .scenarioName(log.getScenario().getName())
-                        .toolSeizeLogId(toolUsage.getId())
-                        .build();
-                results.add(dto);
-            }
-        }
-
-        return results;
+        return null;
     }
 
     public List<GanttTaskDto> getProductionGantt(int scenarioId){
