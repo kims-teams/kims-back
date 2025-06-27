@@ -5,6 +5,7 @@ import org.kt.finalproject.domain.input.entity.ToolMap;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ToolMapRepository extends JpaRepository<ToolMap, Integer> {
     List<ToolMap> findByScenario(Scenario scenario);
@@ -17,5 +18,6 @@ public interface ToolMapRepository extends JpaRepository<ToolMap, Integer> {
     // 공정 기준 도구 조회
     List<ToolMap> findByOperationId(String operationId);
 
+    Optional<ToolMap> findByScenarioAndToolIdAndOperationId(Scenario scenario, String toolId, String operationId);
 
 }

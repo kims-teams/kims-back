@@ -42,14 +42,14 @@ public class SimulationResultController {
     }
 
     @GetMapping("/tool-usage")
-    public ResponseEntity<List<OperationToolUsageDto>> getToolUsage(@RequestParam int scenarioId) {
+    public ResponseEntity<List<OperationToolUsageDto>> getToolUsage(@RequestParam("scenario-id") int scenarioId) {
         return ResponseEntity.ok(
                 simulationResultService.getToolUsageByScenarioId(scenarioId)
         );
     }
 
     @GetMapping("/workcenter-usage")
-    public ResponseEntity<List<OperationWorkCenterUsageDto>> getWorkcenterUsage(@RequestParam int scenarioId) {
+    public ResponseEntity<List<OperationWorkCenterUsageDto>> getWorkcenterUsage(@RequestParam("scenario-id") int scenarioId) {
         return ResponseEntity.ok(
                 simulationResultService.getWorkCenterUsageByScenarioId(scenarioId)
         );
