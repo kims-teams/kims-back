@@ -13,7 +13,8 @@ public interface OperationExecutionLogRepository extends JpaRepository<Operation
     List<OperationExecutionLog> findByScenarioId(int scenarioId);
 
     // 작업(Operation) 기준 조회
-    List<OperationExecutionLog> findByOperationId(int operationId);
+    List<OperationExecutionLog> findByScenario_idAndOperationId(int scenarioId, int operationId);
+    List<OperationExecutionLog> findByScenarioAndOperationId(Scenario scenario, int operationId);
 
     // 설비 기준 조회 (자원간트용)
     List<OperationExecutionLog> findByWorkcenterId(String workcenterId);

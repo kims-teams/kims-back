@@ -13,7 +13,7 @@ public interface OperationRepository extends JpaRepository<Operation, Integer> {
     List<?> findByScenarioId(int scenarioId);
 
     //
-    Optional<Operation> findByOperationId(String operationId);
-
+    Optional<Operation> findByScenario_IdAndOperationId(int scenarioId, String operationId);
+    Optional<Operation> findByScenarioAndOperationId(Scenario scenario, String operationId);
     Optional<Operation> findByScenarioAndOperationSeq(Scenario scenario, Integer operationSeq);
 }
