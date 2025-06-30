@@ -48,12 +48,12 @@ public class SimulationResultService {
         for (OperationSequence seq : sequenceList) {
             String operationId = seq.getOperationId();
 
-            Operation operation = operationRepository.findByOperationId(operationId)
+            Operation operation = operationRepository.findByScenarioAndOperationId(scenario, operationId)
                     .orElseThrow(() -> new RuntimeException("작업 없음: " + operationId));
             int runTime = operation.getRunTime();
 
             //  작업장 후보 목록 조회
-            List<WorkcenterMap> wcMaps = workcenterMapRepository.findByOperationId(operationId);
+            List<WorkcenterMap> wcMaps = workcenterMapRepository.findByScenarioAndOperationId(scenario, operationId);
             if (wcMaps.isEmpty()) continue;
 
             //  가장 빨리 가능한 작업장 선택
@@ -71,7 +71,7 @@ public class SimulationResultService {
             }
 
             //  도구 후보 조회
-            List<ToolMap> toolMaps = toolMapRepository.findByOperationId(operationId);
+            List<ToolMap> toolMaps = toolMapRepository.findByScenarioAndOperationId(scenario, operationId);
             String selectedToolId = null;
             LocalDateTime toolReady = null;
 
