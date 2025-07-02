@@ -139,6 +139,13 @@ public class SimulationResultService {
     }
 
     public List<OperationToolUsageDto> getToolUsageByScenarioId(int scenarioId) {
+
+        List<OperationExecutionLog> poerations = operationExecutionLogRepository.findByScenarioId(scenarioId);
+        if(poerations.isEmpty()) {
+            runSimulation(scenarioRepository.findById(scenarioId)
+                    .orElseThrow(() -> new RuntimeException("시나리오 없음: " + scenarioId)));
+        }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
@@ -161,6 +168,13 @@ public class SimulationResultService {
     }
     
     public List<OperationWorkCenterUsageDto> getWorkCenterUsageByScenarioId(int scenarioId) {
+
+        List<OperationExecutionLog> poerations = operationExecutionLogRepository.findByScenarioId(scenarioId);
+        if(poerations.isEmpty()){
+            runSimulation(scenarioRepository.findById(scenarioId)
+                    .orElseThrow(() -> new RuntimeException("시나리오 없음: " + scenarioId)));
+        }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
