@@ -1,18 +1,19 @@
-package org.kt.finalproject.result.DTO;
+package org.kt.finalproject.domain.result.DTO;
+
 import lombok.*;
 import org.kt.finalproject.domain.input.entity.Operation;
 import org.kt.finalproject.domain.input.entity.Scenario;
-import org.kt.finalproject.domain.input.entity.WorkcenterMap;
+import org.kt.finalproject.domain.input.entity.ToolMap;
 
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class OperationWorkCenterUsageDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class OperationToolUsageDto {
     private String operationId;
-    private String workcenterId;
+    private String toolId;
     private String startTime;
     private String endTime;
     private Integer durationMinute;

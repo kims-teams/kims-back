@@ -1,4 +1,4 @@
-package org.kt.finalproject.result.DTO;
+package org.kt.finalproject.domain.result.DTO;
 
 import lombok.Builder;
 import lombok.Data;

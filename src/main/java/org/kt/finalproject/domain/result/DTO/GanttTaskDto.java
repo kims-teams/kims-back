@@ -1,4 +1,4 @@
-package org.kt.finalproject.result.DTO;
+package org.kt.finalproject.domain.result.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

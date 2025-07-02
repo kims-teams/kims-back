@@ -37,12 +37,10 @@ public class ScenarioService {
             return ResponseEntity.status(409).body("이미 존재하는 시나리오의 이름입니다");
         }
 
-        // 2. 시나리오 새로 생성 후 저장
-        Scenario scenario = Scenario.builder().name(scenarioName).build();
-        scenarioRepository.save(scenario);
-
-        // 3. 성공 응답 반환
-        return ResponseEntity.status(200).body(null);
+        Scenario scenario = scenarioRepository.save(
+                Scenario.builder().name(scenarioName).build()
+        );
+        return ResponseEntity.ok(scenario);
     }
 
     //====================================================
