@@ -1,15 +1,14 @@
-package org.kt.finalproject.result.controller;
+package org.kt.finalproject.domain.result.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.domain.input.entity.Scenario;
 import org.kt.finalproject.domain.input.repository.ScenarioRepository;
-import org.kt.finalproject.result.DTO.ExecutionManageDto;
-import org.kt.finalproject.result.DTO.ExecutionResultDto;
-import org.kt.finalproject.result.DTO.GanttTaskDto;
-import org.kt.finalproject.result.entity.OperationExecutionLog;
-import org.kt.finalproject.result.DTO.OperationToolUsageDto;
-import org.kt.finalproject.result.DTO.OperationWorkCenterUsageDto;
-import org.kt.finalproject.result.service.SimulationResultService;
+import org.kt.finalproject.domain.result.DTO.ExecutionManageDto;
+import org.kt.finalproject.domain.result.DTO.GanttTaskDto;
+import org.kt.finalproject.domain.result.entity.OperationExecutionLog;
+import org.kt.finalproject.domain.result.DTO.OperationToolUsageDto;
+import org.kt.finalproject.domain.result.DTO.OperationWorkCenterUsageDto;
+import org.kt.finalproject.domain.result.service.SimulationResultService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

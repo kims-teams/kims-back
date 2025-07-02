@@ -1,16 +1,16 @@
-package org.kt.finalproject.result.service;
+package org.kt.finalproject.domain.result.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.kt.finalproject.domain.input.entity.*;
 import org.kt.finalproject.domain.input.repository.*;
-import org.kt.finalproject.result.DTO.ExecutionManageDto;
-import org.kt.finalproject.result.DTO.ExecutionResultDto;
-import org.kt.finalproject.result.DTO.GanttTaskDto;
-import org.kt.finalproject.result.entity.OperationExecutionLog;
-import org.kt.finalproject.result.DTO.OperationToolUsageDto;
-import org.kt.finalproject.result.DTO.OperationWorkCenterUsageDto;
-import org.kt.finalproject.result.repository.OperationExecutionLogRepository;
+import org.kt.finalproject.domain.result.DTO.ExecutionManageDto;
+import org.kt.finalproject.domain.result.DTO.ExecutionResultDto;
+import org.kt.finalproject.domain.result.DTO.GanttTaskDto;
+import org.kt.finalproject.domain.result.entity.OperationExecutionLog;
+import org.kt.finalproject.domain.result.DTO.OperationToolUsageDto;
+import org.kt.finalproject.domain.result.DTO.OperationWorkCenterUsageDto;
+import org.kt.finalproject.domain.result.repository.OperationExecutionLogRepository;
 //import org.kt.finalproject.result.repository.OperationToolUsageRepository;
 //import org.kt.finalproject.result.repository.OperationWorkCenterUsageRepository;
 import org.springframework.stereotype.Service;
@@ -139,6 +139,13 @@ public class SimulationResultService {
     }
 
     public List<OperationToolUsageDto> getToolUsageByScenarioId(int scenarioId) {
+
+        List<OperationExecutionLog> poerations = operationExecutionLogRepository.findByScenarioId(scenarioId);
+        if(poerations.isEmpty()) {
+            runSimulation(scenarioRepository.findById(scenarioId)
+                    .orElseThrow(() -> new RuntimeException("시나리오 없음: " + scenarioId)));
+        }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
@@ -161,6 +168,13 @@ public class SimulationResultService {
     }
     
     public List<OperationWorkCenterUsageDto> getWorkCenterUsageByScenarioId(int scenarioId) {
+
+        List<OperationExecutionLog> poerations = operationExecutionLogRepository.findByScenarioId(scenarioId);
+        if(poerations.isEmpty()){
+            runSimulation(scenarioRepository.findById(scenarioId)
+                    .orElseThrow(() -> new RuntimeException("시나리오 없음: " + scenarioId)));
+        }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         List<OperationExecutionLog> executionLogs = executionLogRepository.findByScenarioId(scenarioId);
 
