@@ -37,7 +37,7 @@ public class InputService {
     public int saveInputData(String item, String dataType) throws JsonProcessingException {
 
         JsonNode root = mapper.readTree(item);
-        JsonNode dataArray = root.path("data").path("data");
+        JsonNode dataArray = root.path("data");
         Optional<Scenario> OpScenario = scenarioRepository.findById(root.path("scenario_id").asInt());
         if(OpScenario.isEmpty()){
             System.out.println("❌ 해당 ID의 시나리오가 없습니다: " + root.path("scenario_id").asInt());
